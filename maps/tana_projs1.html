@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_e8c3036cc3084ba79ed5ff886ea079bf {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.4.2/Control.FullScreen.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    
+            <style>
+                #export {
+                    position: absolute;
+                    top: 5px;
+                    right: 10px;
+                    z-index: 999;
+                    background: white;
+                    color: black;
+                    padding: 6px;
+                    border-radius: 4px;
+                    font-family: 'Helvetica Neue';
+                    cursor: pointer;
+                    font-size: 12px;
+                    text-decoration: none;
+                    top: 90px;
+                }
+            </style>
+        
+</head>
+<body>    
+    
+            <div class="folium-map" id="map_e8c3036cc3084ba79ed5ff886ea079bf" ></div>
+        
+    <a href='#' id='export'>Export</a>
+</body>
+<script>    
+    
+            var map_e8c3036cc3084ba79ed5ff886ea079bf = L.map(
+                "map_e8c3036cc3084ba79ed5ff886ea079bf",
+                {
+                    center: [-0.342, 37.288],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 10,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+            L.control.scale().addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+
+            
+
+        
+    
+            var tile_layer_50ba4c6dfd10433d94a1904cff8e3c47 = L.tileLayer(
+                "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"http://cartodb.com/attributions\"\u003eCartoDB\u003c/a\u003e, CartoDB \u003ca href =\"http://cartodb.com/attributions\"\u003eattributions\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            L.control.fullscreen(
+                {"forceSeparateButton": false, "position": "topleft", "title": "Full Screen", "titleCancel": "Exit Full Screen"}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+            // FeatureGroup is to store editable layers.
+            var drawnItems = new L.featureGroup().addTo(
+                map_e8c3036cc3084ba79ed5ff886ea079bf
+            );
+            options.edit.featureGroup = drawnItems;
+            var draw_control_f4e70a1a4abc43059dcfa973c60b38be = new L.Control.Draw(
+                options
+            ).addTo( map_e8c3036cc3084ba79ed5ff886ea079bf );
+            map_e8c3036cc3084ba79ed5ff886ea079bf.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems.addLayer(layer);
+             });
+            map_e8c3036cc3084ba79ed5ff886ea079bf.on('draw:created', function(e) {
+                drawnItems.addLayer(e.layer);
+            });
+            
+            document.getElementById('export').onclick = function(e) {
+                var data = drawnItems.toGeoJSON();
+                var convertedData = 'text/json;charset=utf-8,'
+                    + encodeURIComponent(JSON.stringify(data));
+                document.getElementById('export').setAttribute(
+                    'href', 'data:' + convertedData
+                );
+                document.getElementById('export').setAttribute(
+                    'download', "data.geojson"
+                );
+            }
+            
+        
+    
+            var feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_7b54d5bb3e7649f0bcf65443a889b7f2 = L.marker(
+                [-0.479101, 37.12512],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_b1fd183ccf294291ad690299debbb026 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e7.Karatina Water and Sewerage \u003c/div\u003e"});
+            marker_7b54d5bb3e7649f0bcf65443a889b7f2.setIcon(div_icon_b1fd183ccf294291ad690299debbb026);
+        
+    
+        var popup_cb1d577ce3f844808e53612318de32f3 = L.popup({"maxWidth": 300});
+
+        
+            var html_695d59bdf4d941b09ee08dea151f50e2 = $(`<div id="html_695d59bdf4d941b09ee08dea151f50e2" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Karatina Water and Sewerage  <br><p> <strong>Scope</strong>: Water Supply System The proposed works include; ? Construction of 30,000m3/d conventional water treatment plant ? Laying of DN 560mm 4km long Epoxy coated cement lined Steel Raw Water Gravity Main ? Laying of transmission gravity water mains of varying sizes, a total length of 42km ? Construction of 5 No. Reinforced Concrete tanks of capacities 500m3,1000m3, 2000m3 and 3000m3 Sewerage System The sewer works include ? Construction of 4,600m3/d wastewater Treatment Plant ? Laying of 8km lateral sewer lines <br><p> <strong>Population to be Served</strong>: 290000 <br><p> <strong>Progress%</strong>: - Feasibility Study and Preliminary designs complete (100%) - Sourcing for the funds for the projec</div>`)[0];
+            popup_cb1d577ce3f844808e53612318de32f3.setContent(html_695d59bdf4d941b09ee08dea151f50e2);
+        
+
+        marker_7b54d5bb3e7649f0bcf65443a889b7f2.bindPopup(popup_cb1d577ce3f844808e53612318de32f3)
+        ;
+
+        
+    
+    
+            marker_7b54d5bb3e7649f0bcf65443a889b7f2.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_fde035975745402fa3b3072cc15ee563 = L.marker(
+                [-0.420652, 37.570667],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_a67d6b87ae3040d0963195abad011a5a = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e3.Runyenjes Water and Sewerage\u003c/div\u003e"});
+            marker_fde035975745402fa3b3072cc15ee563.setIcon(div_icon_a67d6b87ae3040d0963195abad011a5a);
+        
+    
+        var popup_0afa46cc4aad4632957c9bcb33922a41 = L.popup({"maxWidth": 300});
+
+        
+            var html_89f46b2d81894df6ba584d92e03ee5e2 = $(`<div id="html_89f46b2d81894df6ba584d92e03ee5e2" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Runyenjes Water and Sewerage <br><p> <strong>Scope</strong>: Water System  Development of a new water supply scheme dedicated to serve Runyenjes and its immediate environs Proposed works include ? Conventional Treatment works with a  capacity of 15,000m3/ Day ?  Laying of DN 450mm 14km long Epoxy coated cement lined Steel Raw Water Gravity Main  ? Laying of transmission gravity water mains of varying sizes, a total length of 37km ? Construction of 9 No. Reinforced Concrete tanks of capacities 225m3, 500m3 and 1000m3  ? installation of consumer meters, rehabilitation of existing water supply network and capacity building  Sanitation system  Construct a wastewater collection and treatment system to cover the urban area of Runyenjes. Proposed system will consist of ? Construction of a Treatment works with a  capacity of 1500m3/day ? Trunk sewers DN 450mm - 5 km in length ? Tertiary sewers DN 300 -200mm � 7.5 km <br><p> <strong>Population to be Served</strong>: 35000 <br><p> <strong>Progress%</strong>: - Feasibility Study and Preliminary designs complete (100%) - Sourcing for the funds for the projec</div>`)[0];
+            popup_0afa46cc4aad4632957c9bcb33922a41.setContent(html_89f46b2d81894df6ba584d92e03ee5e2);
+        
+
+        marker_fde035975745402fa3b3072cc15ee563.bindPopup(popup_0afa46cc4aad4632957c9bcb33922a41)
+        ;
+
+        
+    
+    
+            marker_fde035975745402fa3b3072cc15ee563.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d1bcf66e905b4c9581d73da13308e246 = L.marker(
+                [-0.0667104, 37.6650942],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_0571c23649644179b9fda6ca4caaa513 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e4.Nkubu Water and Sewerage\u003c/div\u003e"});
+            marker_d1bcf66e905b4c9581d73da13308e246.setIcon(div_icon_0571c23649644179b9fda6ca4caaa513);
+        
+    
+        var popup_c85409e95f2f481b8e7b26c1d7838084 = L.popup({"maxWidth": 300});
+
+        
+            var html_c3d86a193444469e86706a042a21883f = $(`<div id="html_c3d86a193444469e86706a042a21883f" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Nkubu Water and Sewerage <br><p> <strong>Scope</strong>: Water Supply System Development of a new water supply system to serve Nkubu town and adjacent market centers namely Kanyakine and Mitunguu. Proposed works include; ? Intake on Iraru river, ? 7km HDPE and Epoxy OD560mm gravity raw water main ? 30,000m3/day full conventional water treatment plant. ? 23km long treated water main conveying water to the storage tanks through HDPE pipes ranging in size from OD250 OD355mm. ? Three (3 No.) water storage tanks are proposed at Nkubu (5,000m3), Kanyakine (2,000m3) and Mitunguu (1,000m3) capacities. ? A new 40km reticulation network is proposed to serve Nkubu, Kanyakine and Mitunguu comprising of HDPE pipes ranging from OD90-OD160mm pipes.  ?  Additionally, 4,000 household water connections complete with metering are proposed.   Sewerage System  Development of a new sewerage system to serve Nkubu town.    Proposed works include;  ? Construction of 14 km DN 600 � 450 mm trunk sewer line,  ?  20km of DN 300 - 200 mm secondary sewer lines tertiary sewer lines ?  2300 m3/day wastewater treatment plant.  <br><p> <strong>Population to be Served</strong>: 100000 <br><p> <strong>Progress%</strong>: .preliminary designs and feasibility studies fully done(100%). Sourcing for funds to implement project</div>`)[0];
+            popup_c85409e95f2f481b8e7b26c1d7838084.setContent(html_c3d86a193444469e86706a042a21883f);
+        
+
+        marker_d1bcf66e905b4c9581d73da13308e246.bindPopup(popup_c85409e95f2f481b8e7b26c1d7838084)
+        ;
+
+        
+    
+    
+            marker_d1bcf66e905b4c9581d73da13308e246.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_54e962e43913401f81867756e09c4bb7 = L.marker(
+                [0.085573, 37.2418493],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_27edff45986f45e6812ccb3517cada09 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e6.Timau Water and Sewerage\u003c/div\u003e"});
+            marker_54e962e43913401f81867756e09c4bb7.setIcon(div_icon_27edff45986f45e6812ccb3517cada09);
+        
+    
+        var popup_e50348348f1b43898de76023cf731c1f = L.popup({"maxWidth": 300});
+
+        
+            var html_c5e5165cf7ba4ffeadfb63f036b8eb9c = $(`<div id="html_c5e5165cf7ba4ffeadfb63f036b8eb9c" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Timau Water and Sewerage <br><p> <strong>Scope</strong>: ProWater Supply System  Construct Bulk Water Supply System to supply  10,000m3/day of treated water to Timau Town and its  environs by;  ? Construction of 5 km raw water main  DN400  ? 20km treated water mains ranging from  DN300 � DN 160 mm   ? Rehabilitation of existing distribution  system in the towns including 100%  metering.  ? Conduct capacity building activities for  improving management efficiency in billing  and collection systems and reduction of non revenue water in the service areas.    Sewerage System  Construct Sewerage System in Timau Town to collect  and treat 1,100m3/day of dry weather flow for a  population of 24,000 peopleject & Meru County <br><p> <strong>Population to be Served</strong>: 62000 <br><p> <strong>Progress%</strong>: - Preliminary Designs and Feasibility studies fully done (100%). - ESIA and RAP ongoing</div>`)[0];
+            popup_e50348348f1b43898de76023cf731c1f.setContent(html_c5e5165cf7ba4ffeadfb63f036b8eb9c);
+        
+
+        marker_54e962e43913401f81867756e09c4bb7.bindPopup(popup_e50348348f1b43898de76023cf731c1f)
+        ;
+
+        
+    
+    
+            marker_54e962e43913401f81867756e09c4bb7.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_054bc131d4c648aea0899634bfc56487 = L.marker(
+                [-0.472042, 37.557192],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_56e949b69203474982f72d1fb8152a29 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e8.Embu and environs\u003c/div\u003e"});
+            marker_054bc131d4c648aea0899634bfc56487.setIcon(div_icon_56e949b69203474982f72d1fb8152a29);
+        
+    
+        var popup_28c1bb3e59674bff8fd4e0e140cf4730 = L.popup({"maxWidth": 300});
+
+        
+            var html_313cba71807a4a1ca8052ae57ecd3f97 = $(`<div id="html_313cba71807a4a1ca8052ae57ecd3f97" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Embu and environs <br><p> <strong>Scope</strong>: a) Ishiara and Environs � Water Project - Construction of water intake on Thuci River, Laying of 3.5km DN 450mm raw water main , 15,000m3/day Water treatment plant, 6km of Dn 355mm treated Water main, Water storage tank ( 2000m3) and 13.5km reticulation network of Dn110mm - 90mm Diameter � Sewer Project - Sewer treatment plant of 3,500m3/day, Laying of 15km lateral sewer lines (DN 250-200mm) and Laying of 5km DN300mm trunk sewer line b) Ena and Environs �Water Project - Construction of water intake on Thuci River, Laying of 13km DN 600mm raw water main , 24,000m3/day Water treatment plant, 35km of Dn 600mm - 400mm treated Water main, Water storage tank (1 - 5000m3 and 3 - 500m3)and 17km (Dn 160),10Km(Dn315) and 15Km (Dn 200) reticulation network. � Sewer Project - Sewer treatment plant of 4,500m3/day , Laying of 10km lateral sewer lines (DN 250-200mm) and Laying of 5km DN300mm trunk sewer line <br><p> <strong>Population to be Served</strong>: nil <br><p> <strong>Progress%</strong>: Survey works to commence in Aug 2023</div>`)[0];
+            popup_28c1bb3e59674bff8fd4e0e140cf4730.setContent(html_313cba71807a4a1ca8052ae57ecd3f97);
+        
+
+        marker_054bc131d4c648aea0899634bfc56487.bindPopup(popup_28c1bb3e59674bff8fd4e0e140cf4730)
+        ;
+
+        
+    
+    
+            marker_054bc131d4c648aea0899634bfc56487.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1ebf1735739643e58c91ba80cca66c67 = L.marker(
+                [-0.153822, 37.0461018],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_5ac3901a41884c0db5d33df45e79ee5b = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e2.Naromoru Water and Sewerage\u003c/div\u003e"});
+            marker_1ebf1735739643e58c91ba80cca66c67.setIcon(div_icon_5ac3901a41884c0db5d33df45e79ee5b);
+        
+    
+        var popup_ba647dee50f647d9b857ca5153e99f50 = L.popup({"maxWidth": 300});
+
+        
+            var html_595c7718670b44f38cea07d90efb6f6a = $(`<div id="html_595c7718670b44f38cea07d90efb6f6a" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Naromoru Water and Sewerage <br><p> <strong>Scope</strong>: Water Supply System Development of a water supply project to serve Naromoru, Lusoi and Thegu. Proposed works include ? Construction of gravity main line 225mm dia. ? Distribution lines (OD 225/160/110/90 mm dia.). ? Water storage tanks ? installation of consumer meters, rehabilitation of existing water supply network and capacity building. Sewerage System Development of a sewerage system to serve Naromoru and its environs. Scope of works includes ? Construction of sewer trunk mains (315/225mm dia.), ? Sewer lateral lines (160/110mm dia), ? 2,000m3/day conventional waste water treatment works <br><p> <strong>Population to be Served</strong>: 97000 <br><p> <strong>Progress%</strong>: - Preliminary Designs and Feasibility studies fully done (100%). - Sourcing for the funds for the project</div>`)[0];
+            popup_ba647dee50f647d9b857ca5153e99f50.setContent(html_595c7718670b44f38cea07d90efb6f6a);
+        
+
+        marker_1ebf1735739643e58c91ba80cca66c67.bindPopup(popup_ba647dee50f647d9b857ca5153e99f50)
+        ;
+
+        
+    
+    
+            marker_1ebf1735739643e58c91ba80cca66c67.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c540788037e749c88015afa355b5f5d3 = L.marker(
+                [-0.785476, 37.530893],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_98b48ab86f7840c59ffc37c8295d8ba5 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e11.Thiba - Karaba\u003c/div\u003e"});
+            marker_c540788037e749c88015afa355b5f5d3.setIcon(div_icon_98b48ab86f7840c59ffc37c8295d8ba5);
+        
+    
+        var popup_c904dd34b57a472db8aff1b192bfdbf2 = L.popup({"maxWidth": 300});
+
+        
+            var html_ae634ded8b3245d790739f1d7df9c534 = $(`<div id="html_ae634ded8b3245d790739f1d7df9c534" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Thiba - Karaba <br><p> <strong>Scope</strong>: The proposed works are:- ? Construction of the new water intake and new treatment works of 25,000m3/day ? Distribution lines of varying diameter Dn 63 - Dn 200 , totalling to 100km ? Raw main gravity Dn 450 about 4km <br><p> <strong>Population to be Served</strong>: 110000 <br><p> <strong>Progress%</strong>: - Preliminary Designs and Feasibility studies fully done (100%).</div>`)[0];
+            popup_c904dd34b57a472db8aff1b192bfdbf2.setContent(html_ae634ded8b3245d790739f1d7df9c534);
+        
+
+        marker_c540788037e749c88015afa355b5f5d3.bindPopup(popup_c904dd34b57a472db8aff1b192bfdbf2)
+        ;
+
+        
+    
+    
+            marker_c540788037e749c88015afa355b5f5d3.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_dcaf5a3791ab46a88e6bc1788e3e0d69 = L.marker(
+                [-0.49564, 37.715989],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_cc0c8e883b81451aa177ee81dbcd2b47 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e12.Kamumu Multipurpose Dam\u003c/div\u003e"});
+            marker_dcaf5a3791ab46a88e6bc1788e3e0d69.setIcon(div_icon_cc0c8e883b81451aa177ee81dbcd2b47);
+        
+    
+        var popup_b03b8d9c06ce4f4fb407229b26d86e9f = L.popup({"maxWidth": 300});
+
+        
+            var html_d01b118c8fca425a8049c5da4f5d6c6d = $(`<div id="html_d01b118c8fca425a8049c5da4f5d6c6d" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kamumu Multipurpose Dam <br><p> <strong>Scope</strong>: The proposed works are:- ? Construction of the new water intake and new treatment works of 25,000m3/day ? Distribution lines of varying diameter Dn 63 - Dn 200 , totalling to 100km ? Raw main gravity Dn 450 about 4km <br><p> <strong>Population to be Served</strong>: 100000 <br><p> <strong>Progress%</strong>: The project feasibility studies are at ministry with sourcing for the funds to facilitate its implementation ongoing.</div>`)[0];
+            popup_b03b8d9c06ce4f4fb407229b26d86e9f.setContent(html_d01b118c8fca425a8049c5da4f5d6c6d);
+        
+
+        marker_dcaf5a3791ab46a88e6bc1788e3e0d69.bindPopup(popup_b03b8d9c06ce4f4fb407229b26d86e9f)
+        ;
+
+        
+    
+    
+            marker_dcaf5a3791ab46a88e6bc1788e3e0d69.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_67edaaffc66149d9870f758e2e8bdfe6 = L.marker(
+                [-0.427871, 36.855506],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_27ee3a08c89b466ba0dfa0c0253e4599 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e155.Muhoya Multipurpose Dam \u003c/div\u003e"});
+            marker_67edaaffc66149d9870f758e2e8bdfe6.setIcon(div_icon_27ee3a08c89b466ba0dfa0c0253e4599);
+        
+    
+        var popup_7857151420ad4578accc04cb204375ba = L.popup({"maxWidth": 300});
+
+        
+            var html_ebd0678f290d4634a9fd5d8f8a11fe84 = $(`<div id="html_ebd0678f290d4634a9fd5d8f8a11fe84" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Muhoya Multipurpose Dam  <br><p> <strong>Scope</strong>: Multiple uses including domestic, livestock and irrigation water on Chania River and to serve parts of Kieni East and West sub counties, Mathira and Nyeri Central Sub counties. <br><p> <strong>Population to be Served</strong>: 500000 <br><p> <strong>Progress%</strong>: The feasibility study for this dam has been done and submitted to the MWSI</div>`)[0];
+            popup_7857151420ad4578accc04cb204375ba.setContent(html_ebd0678f290d4634a9fd5d8f8a11fe84);
+        
+
+        marker_67edaaffc66149d9870f758e2e8bdfe6.bindPopup(popup_7857151420ad4578accc04cb204375ba)
+        ;
+
+        
+    
+    
+            marker_67edaaffc66149d9870f758e2e8bdfe6.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6bb854db70454d39943e5741ca2094a5 = L.marker(
+                [-0.3969694, 36.961613],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_2ddc79e830ba4647914ce6e9d525135c = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e1.Kabiruini-Chaka Sewerage\u003c/div\u003e"});
+            marker_6bb854db70454d39943e5741ca2094a5.setIcon(div_icon_2ddc79e830ba4647914ce6e9d525135c);
+        
+    
+        var popup_7cd4115a977c481bbbcde5530dd1c034 = L.popup({"maxWidth": 300});
+
+        
+            var html_7f82881e017c459ca39b603e57feccc1 = $(`<div id="html_7f82881e017c459ca39b603e57feccc1" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kabiruini-Chaka Sewerage <br><p> <strong>Scope</strong>: Carrying out feasibility study to come up with at least three (3) options model exhibiting the best available technology/good practice in waste water collection system and treatment plant installation and operations ? ? Carrying out a study of applicability of recycling of waste water and biogas generation ? Preparation of Bills of Quantities and confidential Engineers Estimates  ? Preparation of Tender Documents for the  proposed works Carrying out full Environmental and Social Impact Assessment (ESIA) ? Based on the model adopted by TWWDA, preparing and providing detailed designs, drawings and specifications <br><p> <strong>Population to be Served</strong>: 80000 <br><p> <strong>Progress%</strong>: Inception Report submitted and approved. - Public participation for ESIA done. - Feasibility Study Report and Environmental Social Impact Assessment (ESIA) Report</div>`)[0];
+            popup_7cd4115a977c481bbbcde5530dd1c034.setContent(html_7f82881e017c459ca39b603e57feccc1);
+        
+
+        marker_6bb854db70454d39943e5741ca2094a5.bindPopup(popup_7cd4115a977c481bbbcde5530dd1c034)
+        ;
+
+        
+    
+    
+            marker_6bb854db70454d39943e5741ca2094a5.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_3d7c6b15cfd445669a169a3cc7832342 = L.marker(
+                [-0.596129, 37.481329],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_34617da9481843c7aae336bb07e69603 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e9.Embu Sewer Relocation\u003c/div\u003e"});
+            marker_3d7c6b15cfd445669a169a3cc7832342.setIcon(div_icon_34617da9481843c7aae336bb07e69603);
+        
+    
+        var popup_e67da5805b93423cbee45340b8c3d186 = L.popup({"maxWidth": 300});
+
+        
+            var html_5ed773a2beb34ca09cef9fd90129772b = $(`<div id="html_5ed773a2beb34ca09cef9fd90129772b" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Embu Sewer Relocation <br><p> <strong>Scope</strong>: The works include ? Relocation of the existing sewer from Embu CBD to outskirt areas of the town ? Laying of new trunks sewer 8km of DWC, Dn 450 ? Sewer reticulation of unserved areas of town of total length of 11 km of sizes DN 200 and Dn 300 <br><p> <strong>Population to be Served</strong>: 60000 <br><p> <strong>Progress%</strong>: - Stakeholders engagement is going on to facilitate acquiring of the way leaves and land for the Treatment Works</div>`)[0];
+            popup_e67da5805b93423cbee45340b8c3d186.setContent(html_5ed773a2beb34ca09cef9fd90129772b);
+        
+
+        marker_3d7c6b15cfd445669a169a3cc7832342.bindPopup(popup_e67da5805b93423cbee45340b8c3d186)
+        ;
+
+        
+    
+    
+            marker_3d7c6b15cfd445669a169a3cc7832342.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ea0c776a1d1b4ed2849e3e2e986bdd07 = L.marker(
+                [-0.7917, 37.51746],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_f87f8247a05242f19a15e1c4cb2a87fb = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e5.Mwea Environs Sanitation\u003c/div\u003e"});
+            marker_ea0c776a1d1b4ed2849e3e2e986bdd07.setIcon(div_icon_f87f8247a05242f19a15e1c4cb2a87fb);
+        
+    
+        var popup_2ef1eafe378f4a15b7495e5039e7a09c = L.popup({"maxWidth": 300});
+
+        
+            var html_49f5e9e3e8dc46c8bd720031a50c4b10 = $(`<div id="html_49f5e9e3e8dc46c8bd720031a50c4b10" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Mwea Environs Sanitation <br><p> <strong>Scope</strong>: Water Supply System Construct Bulk Water Supply System to supply 25,000m3/day of treated water to Kimbimbi, Kanjuu, Itangi, Morgan, and Wang�uru Town and their environs by; ? Construction of 6km raw water main DN500, ? 87km treated water mains ranging from DN400 - DN 300. ? Rehabilitation of existing distribution system in the towns including 100% metering. ? Conduct capacity-building activities for improving �management efficiency in billing and collection systems and reduction of non-revenue water in the service areas. Sewerage System Construct Sewerage reticulation and treatment facilities in Kimbimbi and Wang�uru Towns to collect and treat 3,000m3/day of dry weather flow for the towns for a current combined population of 15000 <br><p> <strong>Population to be Served</strong>: 115000 <br><p> <strong>Progress%</strong>: - Survey and design works expected to commence in Aug 2023</div>`)[0];
+            popup_2ef1eafe378f4a15b7495e5039e7a09c.setContent(html_49f5e9e3e8dc46c8bd720031a50c4b10);
+        
+
+        marker_ea0c776a1d1b4ed2849e3e2e986bdd07.bindPopup(popup_2ef1eafe378f4a15b7495e5039e7a09c)
+        ;
+
+        
+    
+    
+            marker_ea0c776a1d1b4ed2849e3e2e986bdd07.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c886c5a767044e6ab0097b944e3b6669 = L.marker(
+                [0.05023, 37.65215],
+                {}
+            ).addTo(feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd);
+        
+    
+            var div_icon_441fc256081a42d2a0d54e929a82f481 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:green; \"\u003e10.Meru Augmentation\u003c/div\u003e"});
+            marker_c886c5a767044e6ab0097b944e3b6669.setIcon(div_icon_441fc256081a42d2a0d54e929a82f481);
+        
+    
+        var popup_a845269a50e540a09a6ad5fb4dde9f77 = L.popup({"maxWidth": 300});
+
+        
+            var html_4164f63cec0d4c22904a5dcd3157a900 = $(`<div id="html_4164f63cec0d4c22904a5dcd3157a900" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Meru Augmentation <br><p> <strong>Scope</strong>: The proposed works are:- ? Construction of the new water intake and new treatment works of 15,000m3/day ? Laying of Raw water mains Dn 450 about 4km ? Distribution lines of varying diameters Dn 63 - Dn 200 HDPE pipes , length of about  15km ? a number of BPTs along the main pipelin <br><p> <strong>Population to be Served</strong>: 150000 <br><p> <strong>Progress%</strong>: - Survey and design works expected to commence in Aug 2024</div>`)[0];
+            popup_a845269a50e540a09a6ad5fb4dde9f77.setContent(html_4164f63cec0d4c22904a5dcd3157a900);
+        
+
+        marker_c886c5a767044e6ab0097b944e3b6669.bindPopup(popup_a845269a50e540a09a6ad5fb4dde9f77)
+        ;
+
+        
+    
+    
+            marker_c886c5a767044e6ab0097b944e3b6669.bindTooltip(
+                `<div>
+                     Bq
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var feature_group_836c0301e76846b08799564985d9873b = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_c0809093935f43b0985e2551035f45ab = L.marker(
+                [-0.336375, 37.642762],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_90c9fa4d1cda44ce8032e07edd2da406 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e13.Chuka Water\u003c/div\u003e"});
+            marker_c0809093935f43b0985e2551035f45ab.setIcon(div_icon_90c9fa4d1cda44ce8032e07edd2da406);
+        
+    
+        var popup_d815b55b07684fa9b839ff8e8c6c05a5 = L.popup({"maxWidth": 300});
+
+        
+            var html_995e1faadc2947e594a35b2defe6f94a = $(`<div id="html_995e1faadc2947e594a35b2defe6f94a" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Chuka Water <br><p> <strong>Scope</strong>: Intake Works at Ruguti River. Treatment Works 15000 M3/Day. 7 Km of Raw Water and Treated water mains Ranging from 450mm 150mm. 15.4 km transmission main. 2No. Storage tanks of 500 m3 each. <br><p> <strong>Population to be Served</strong>: 150000 <br><p> <strong>Progress%</strong>: 75</div>`)[0];
+            popup_d815b55b07684fa9b839ff8e8c6c05a5.setContent(html_995e1faadc2947e594a35b2defe6f94a);
+        
+
+        marker_c0809093935f43b0985e2551035f45ab.bindPopup(popup_d815b55b07684fa9b839ff8e8c6c05a5)
+        ;
+
+        
+    
+    
+            var marker_66757e16ca0c4e58ae82176eda3ae6bb = L.marker(
+                [-0.23526, 37.59573],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_5cec08a5755c4c2896cc7b714629988f = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e1.Chogoria Water\u003c/div\u003e"});
+            marker_66757e16ca0c4e58ae82176eda3ae6bb.setIcon(div_icon_5cec08a5755c4c2896cc7b714629988f);
+        
+    
+        var popup_d275353378424776a8dd3a1ba8a9f5e9 = L.popup({"maxWidth": 300});
+
+        
+            var html_8442f9a6fb1d4e849369bd60ab665226 = $(`<div id="html_8442f9a6fb1d4e849369bd60ab665226" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Chogoria Water <br><p> <strong>Scope</strong>: Intake Works at Maara Manyi River. Treatment Works of 15,000 m3/day. 3 Km Raw Water Gravity main. 2 No Storage Tanks of 500 m3 each and 16.20 Km Treated water gravity mains ranging from 450mm 150mm pipeline.  <br><p> <strong>Population to be Served</strong>: 180000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_d275353378424776a8dd3a1ba8a9f5e9.setContent(html_8442f9a6fb1d4e849369bd60ab665226);
+        
+
+        marker_66757e16ca0c4e58ae82176eda3ae6bb.bindPopup(popup_d275353378424776a8dd3a1ba8a9f5e9)
+        ;
+
+        
+    
+    
+            var marker_39844c7d4176493798ff2702cf021e0c = L.marker(
+                [-0.508444, 37.283173],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_6293b075fdd648a4af662ba578103930 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e9.Kerugoya-Kutus\u003c/div\u003e"});
+            marker_39844c7d4176493798ff2702cf021e0c.setIcon(div_icon_6293b075fdd648a4af662ba578103930);
+        
+    
+        var popup_80837fbb926e4cecb54475eb8670216d = L.popup({"maxWidth": 300});
+
+        
+            var html_dd94be0ad8e041a1816447cf762abeda = $(`<div id="html_dd94be0ad8e041a1816447cf762abeda" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kerugoya-Kutus <br><p> <strong>Scope</strong>: Intake Works at Kiringa and Thiba Rivers. Treatment Works of 30,000m3/day. Raw water mains 5.8 km. 3 No. Storage Tanks, 500 m3 each. 63 Km Treated water Transmission and Distribution Mains ranging from 600mm to 150mm. <br><p> <strong>Population to be Served</strong>: 350000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_80837fbb926e4cecb54475eb8670216d.setContent(html_dd94be0ad8e041a1816447cf762abeda);
+        
+
+        marker_39844c7d4176493798ff2702cf021e0c.bindPopup(popup_80837fbb926e4cecb54475eb8670216d)
+        ;
+
+        
+    
+    
+            var marker_cd8ed8ca31a1410d9009d4775d877f1e = L.marker(
+                [3.93418, 41.82851],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_269a248e94aa47278faddc50e60c7190 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e14.Mandera Water \u003c/div\u003e"});
+            marker_cd8ed8ca31a1410d9009d4775d877f1e.setIcon(div_icon_269a248e94aa47278faddc50e60c7190);
+        
+    
+        var popup_0d4227a2dd654c1db3d155cc19e39a3f = L.popup({"maxWidth": 300});
+
+        
+            var html_c010385ada324b1297c57be78f21be57 = $(`<div id="html_c010385ada324b1297c57be78f21be57" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Mandera Water  <br><p> <strong>Scope</strong>: Intake Works at Daua River. 5 No. Infiltration Wells. Treatment Works of 16,000 M3/Day. 9 No. Storage Tanks. 316 Km Treated water Transmission and Distribution Mains ranging from 500mm - 63mm. <br><p> <strong>Population to be Served</strong>: 400000 <br><p> <strong>Progress%</strong>: 73</div>`)[0];
+            popup_0d4227a2dd654c1db3d155cc19e39a3f.setContent(html_c010385ada324b1297c57be78f21be57);
+        
+
+        marker_cd8ed8ca31a1410d9009d4775d877f1e.bindPopup(popup_0d4227a2dd654c1db3d155cc19e39a3f)
+        ;
+
+        
+    
+    
+            var marker_0e64a58ebe8d435dbdaeb3cf37ccf126 = L.marker(
+                [2.33553, 37.99435],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_5b43998519da4f1381d654dd37b2d8a2 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e2.Marsabit Water \u003c/div\u003e"});
+            marker_0e64a58ebe8d435dbdaeb3cf37ccf126.setIcon(div_icon_5b43998519da4f1381d654dd37b2d8a2);
+        
+    
+        var popup_ca6b3b4b673f4a9f977d8e1a85af86c6 = L.popup({"maxWidth": 300});
+
+        
+            var html_5182f02b59324d04b8942df5b62a0774 = $(`<div id="html_5182f02b59324d04b8942df5b62a0774" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Marsabit Water  <br><p> <strong>Scope</strong>: Raise Bakuli Dam from 11.5m to 20m. 7 km Dia 200mm rising main. Treatment Works of 1,300 M3/Day. New Gravity Main 6km dia 150 mm. 3 No Storage Tanks 225 m3 each. <br><p> <strong>Population to be Served</strong>: 40000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_ca6b3b4b673f4a9f977d8e1a85af86c6.setContent(html_5182f02b59324d04b8942df5b62a0774);
+        
+
+        marker_0e64a58ebe8d435dbdaeb3cf37ccf126.bindPopup(popup_ca6b3b4b673f4a9f977d8e1a85af86c6)
+        ;
+
+        
+    
+    
+            var marker_a3315e03201448979cd49313662faa4c = L.marker(
+                [-0.72787, 37.15153],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_6d520018c9e14deeb867b1be23ab862a = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e3.Murang\u0027a Urban\u003c/div\u003e"});
+            marker_a3315e03201448979cd49313662faa4c.setIcon(div_icon_6d520018c9e14deeb867b1be23ab862a);
+        
+    
+        var popup_ec5d1ec1acf24711ae80ac5cfc710953 = L.popup({"maxWidth": 300});
+
+        
+            var html_6a51f53aff244f5b8864312b504118cf = $(`<div id="html_6a51f53aff244f5b8864312b504118cf" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Murang'a Urban <br><p> <strong>Scope</strong>: Laying of 9 Km Transmission and Distribution pipelines of 280mm <br><p> <strong>Population to be Served</strong>: 40000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_ec5d1ec1acf24711ae80ac5cfc710953.setContent(html_6a51f53aff244f5b8864312b504118cf);
+        
+
+        marker_a3315e03201448979cd49313662faa4c.bindPopup(popup_ec5d1ec1acf24711ae80ac5cfc710953)
+        ;
+
+        
+    
+    
+            var marker_9b97b76b14a847e788ba45f385e276e1 = L.marker(
+                [-0.89638, 37.00212],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_eca0f7f0c5874b468a682afdc0df8568 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e4.Murang\u0027a South \u003c/div\u003e"});
+            marker_9b97b76b14a847e788ba45f385e276e1.setIcon(div_icon_eca0f7f0c5874b468a682afdc0df8568);
+        
+    
+        var popup_ec7678f461c54220b3822ebb0493ee6a = L.popup({"maxWidth": 300});
+
+        
+            var html_5a83bc8ccca44b7685b265bb57d9c23d = $(`<div id="html_5a83bc8ccca44b7685b265bb57d9c23d" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Murang'a South  <br><p> <strong>Scope</strong>: Laying of 6 Km Transmission and Distribution pipelines of 200mm - 63mm <br><p> <strong>Population to be Served</strong>: 30000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_ec7678f461c54220b3822ebb0493ee6a.setContent(html_5a83bc8ccca44b7685b265bb57d9c23d);
+        
+
+        marker_9b97b76b14a847e788ba45f385e276e1.bindPopup(popup_ec7678f461c54220b3822ebb0493ee6a)
+        ;
+
+        
+    
+    
+            var marker_ee0cd7085a1743809b368b48a7753fa8 = L.marker(
+                [0.34661, 37.58961],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_e917b940e60c48afbd9925729b7d5746 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e6.Isiolo Town\u003c/div\u003e"});
+            marker_ee0cd7085a1743809b368b48a7753fa8.setIcon(div_icon_e917b940e60c48afbd9925729b7d5746);
+        
+    
+        var popup_4d6f5baa835549df9757e148029a6d5c = L.popup({"maxWidth": 300});
+
+        
+            var html_2aa0743392fb470cb4a9ff59304681b4 = $(`<div id="html_2aa0743392fb470cb4a9ff59304681b4" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Isiolo Town <br><p> <strong>Scope</strong>: Laying of 9 Km of water pipeline of 110mm and 12 km DN 225mm sewer lines. <br><p> <strong>Population to be Served</strong>: 10000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_4d6f5baa835549df9757e148029a6d5c.setContent(html_2aa0743392fb470cb4a9ff59304681b4);
+        
+
+        marker_ee0cd7085a1743809b368b48a7753fa8.bindPopup(popup_4d6f5baa835549df9757e148029a6d5c)
+        ;
+
+        
+    
+    
+            var marker_2260633a6c8a4541b9d55ef0e5dccc9d = L.marker(
+                [-0.45332, 39.64616],
+                {}
+            ).addTo(feature_group_836c0301e76846b08799564985d9873b);
+        
+    
+            var div_icon_6125f43f45094c088bfa7491238bf84f = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e7.Garissa Town\u003c/div\u003e"});
+            marker_2260633a6c8a4541b9d55ef0e5dccc9d.setIcon(div_icon_6125f43f45094c088bfa7491238bf84f);
+        
+    
+        var popup_9ba82047e856420c982cb41c90fea4d5 = L.popup({"maxWidth": 300});
+
+        
+            var html_e4b56bce993c4d46b9aa2a4f7d77b7f2 = $(`<div id="html_e4b56bce993c4d46b9aa2a4f7d77b7f2" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Garissa Town <br><p> <strong>Scope</strong>: Rehabilitation of 2 No boreholes. Drilling of 4 No. Large Boreholes. Construction of 1200m3 RC storage tank and 8 Km of 315mm - 150mm transmission mains. Construction of 2No elevated tanks. Rehabilitation of pumping equipment. Rehabilitation of existing tanks. <br><p> <strong>Population to be Served</strong>: 15000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_9ba82047e856420c982cb41c90fea4d5.setContent(html_e4b56bce993c4d46b9aa2a4f7d77b7f2);
+        
+
+        marker_2260633a6c8a4541b9d55ef0e5dccc9d.bindPopup(popup_9ba82047e856420c982cb41c90fea4d5)
+        ;
+
+        
+    
+    
+            var feature_group_088f6d0725924d77a1995fd046702041 = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_d6a7db240ab84abfabbc895307ed10a9 = L.marker(
+                [-0.328841, 37.651335],
+                {}
+            ).addTo(feature_group_088f6d0725924d77a1995fd046702041);
+        
+    
+            var div_icon_fbe1367eb76d4a4cbacbb208ebe8302d = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e12.Chuka Sewerage\u003c/div\u003e"});
+            marker_d6a7db240ab84abfabbc895307ed10a9.setIcon(div_icon_fbe1367eb76d4a4cbacbb208ebe8302d);
+        
+    
+        var popup_87b0a6700fd546238fbeee8f7f47e0d1 = L.popup({"maxWidth": 300});
+
+        
+            var html_88a8c5e1a45945b78276238eabe24a0e = $(`<div id="html_88a8c5e1a45945b78276238eabe24a0e" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Chuka Sewerage <br><p> <strong>Scope</strong>: Trunk sewer 39 km dia ranging from 300-375mm. Secondary sewers 30 km of dia 225mm. Sewerage treatment works capacity 1100m3/day. <br><p> <strong>Population to be Served</strong>: 30000 <br><p> <strong>Progress%</strong>: 76</div>`)[0];
+            popup_87b0a6700fd546238fbeee8f7f47e0d1.setContent(html_88a8c5e1a45945b78276238eabe24a0e);
+        
+
+        marker_d6a7db240ab84abfabbc895307ed10a9.bindPopup(popup_87b0a6700fd546238fbeee8f7f47e0d1)
+        ;
+
+        
+    
+    
+            var marker_1393866db91d4308872f7797b1707ccf = L.marker(
+                [-0.23588, 37.714243],
+                {}
+            ).addTo(feature_group_088f6d0725924d77a1995fd046702041);
+        
+    
+            var div_icon_f7e13b2bec9641e896e6f7b816f4263b = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e11.Chogoria Sewerage\u003c/div\u003e"});
+            marker_1393866db91d4308872f7797b1707ccf.setIcon(div_icon_f7e13b2bec9641e896e6f7b816f4263b);
+        
+    
+        var popup_e6fc82e55502476cb3cba3099cbcac68 = L.popup({"maxWidth": 300});
+
+        
+            var html_020f027c217e4a90a7e109ccb9c7a49b = $(`<div id="html_020f027c217e4a90a7e109ccb9c7a49b" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Chogoria Sewerage <br><p> <strong>Scope</strong>: Trunk sewer 16 km dia ranging from 300-375mm. Secondary sewers 7.6 km Dia 225mm. Sewerage treatment works capacity-1100m3/day. <br><p> <strong>Population to be Served</strong>: 30000 <br><p> <strong>Progress%</strong>: 88</div>`)[0];
+            popup_e6fc82e55502476cb3cba3099cbcac68.setContent(html_020f027c217e4a90a7e109ccb9c7a49b);
+        
+
+        marker_1393866db91d4308872f7797b1707ccf.bindPopup(popup_e6fc82e55502476cb3cba3099cbcac68)
+        ;
+
+        
+    
+    
+            var marker_d51f3541ba654416b8a33fde371f9569 = L.marker(
+                [-0.569377, 37.324206],
+                {}
+            ).addTo(feature_group_088f6d0725924d77a1995fd046702041);
+        
+    
+            var div_icon_13d75ca34f3e4be7bfa0e433091a41e7 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e8.Kerugoya-Kutus Sewerage \u003c/div\u003e"});
+            marker_d51f3541ba654416b8a33fde371f9569.setIcon(div_icon_13d75ca34f3e4be7bfa0e433091a41e7);
+        
+    
+        var popup_b41afbb5ccc44c07a85530ce57610b17 = L.popup({"maxWidth": 300});
+
+        
+            var html_b7575ae559b6447bac269eb056889496 = $(`<div id="html_b7575ae559b6447bac269eb056889496" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kerugoya-Kutus Sewerage  <br><p> <strong>Scope</strong>: Trunk and Secondary Sewers 34 km ranging from diameters 225 mm - 675mm. Sewerage treatment works capacity 4000m3/day. <br><p> <strong>Population to be Served</strong>: 40000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_b41afbb5ccc44c07a85530ce57610b17.setContent(html_b7575ae559b6447bac269eb056889496);
+        
+
+        marker_d51f3541ba654416b8a33fde371f9569.bindPopup(popup_b41afbb5ccc44c07a85530ce57610b17)
+        ;
+
+        
+    
+    
+            var marker_5ddf4904c0f4475f8eaaf4d642de7533 = L.marker(
+                [0.04346, 37.65348],
+                {}
+            ).addTo(feature_group_088f6d0725924d77a1995fd046702041);
+        
+    
+            var div_icon_17cf41fc397441c9a261f6bc58e769bf = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e16.Meru Sewerage\u003c/div\u003e"});
+            marker_5ddf4904c0f4475f8eaaf4d642de7533.setIcon(div_icon_17cf41fc397441c9a261f6bc58e769bf);
+        
+    
+        var popup_4ecebeeea2664a149241c58987e8ffc5 = L.popup({"maxWidth": 300});
+
+        
+            var html_7668a833dfd84d8eb1a6c7e056c57c77 = $(`<div id="html_7668a833dfd84d8eb1a6c7e056c57c77" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Meru Sewerage <br><p> <strong>Scope</strong>: Trunk and Secondary Sewers 56 km ranging from Diameter 225 mm675mm, 20 KmDN. Reticulation Sewer. Sewerage treatment works capacity 8000m3/day <br><p> <strong>Population to be Served</strong>: 100000 <br><p> <strong>Progress%</strong>: 65</div>`)[0];
+            popup_4ecebeeea2664a149241c58987e8ffc5.setContent(html_7668a833dfd84d8eb1a6c7e056c57c77);
+        
+
+        marker_5ddf4904c0f4475f8eaaf4d642de7533.bindPopup(popup_4ecebeeea2664a149241c58987e8ffc5)
+        ;
+
+        
+    
+    
+            var marker_ea01cd244ce0409d9f1e9d3529a19a71 = L.marker(
+                [3.93418, 41.82851],
+                {}
+            ).addTo(feature_group_088f6d0725924d77a1995fd046702041);
+        
+    
+            var div_icon_0cf8cf2d07ec45089417addefd079acc = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e15.Mandera Sewerage\u003c/div\u003e"});
+            marker_ea01cd244ce0409d9f1e9d3529a19a71.setIcon(div_icon_0cf8cf2d07ec45089417addefd079acc);
+        
+    
+        var popup_b303a57485124b8f9b9138f64601a709 = L.popup({"maxWidth": 300});
+
+        
+            var html_16fdab675a1a4cd1ae8e2313e7479549 = $(`<div id="html_16fdab675a1a4cd1ae8e2313e7479549" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Mandera Sewerage <br><p> <strong>Scope</strong>: Trunk sewer 4.3km dia 900mm. Secondary sewers 51.2km ranging from Dia 450mm � 225mm. Sewerage treatment works capacity 7000m3/day.  <br><p> <strong>Population to be Served</strong>: 80000 <br><p> <strong>Progress%</strong>: 73</div>`)[0];
+            popup_b303a57485124b8f9b9138f64601a709.setContent(html_16fdab675a1a4cd1ae8e2313e7479549);
+        
+
+        marker_ea01cd244ce0409d9f1e9d3529a19a71.bindPopup(popup_b303a57485124b8f9b9138f64601a709)
+        ;
+
+        
+    
+    
+            var marker_04e2aa9d17154b4bab3b3311379a4e3c = L.marker(
+                [2.33553, 37.99435],
+                {}
+            ).addTo(feature_group_088f6d0725924d77a1995fd046702041);
+        
+    
+            var div_icon_96c7ff510c13428a88724452dc1399fe = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e10.Marsabit Sewerage\u003c/div\u003e"});
+            marker_04e2aa9d17154b4bab3b3311379a4e3c.setIcon(div_icon_96c7ff510c13428a88724452dc1399fe);
+        
+    
+        var popup_37457a0100f546b0a458dba4a1733bdb = L.popup({"maxWidth": 300});
+
+        
+            var html_5f14d276276e4eb1b1c149027ed4e2fd = $(`<div id="html_5f14d276276e4eb1b1c149027ed4e2fd" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Marsabit Sewerage <br><p> <strong>Scope</strong>: Trunk sewer 4.7km dia ranging from 300- 375mm. Secondary sewers 22.7km Dia 225mm. Sewerage treatment works capacity 5700m3/day. <br><p> <strong>Population to be Served</strong>: 40000 <br><p> <strong>Progress%</strong>: 88</div>`)[0];
+            popup_37457a0100f546b0a458dba4a1733bdb.setContent(html_5f14d276276e4eb1b1c149027ed4e2fd);
+        
+
+        marker_04e2aa9d17154b4bab3b3311379a4e3c.bindPopup(popup_37457a0100f546b0a458dba4a1733bdb)
+        ;
+
+        
+    
+    
+            var marker_d82ec3c632b84afb9f51152b97e7050d = L.marker(
+                [-0.54888, 36.945],
+                {}
+            ).addTo(feature_group_088f6d0725924d77a1995fd046702041);
+        
+    
+            var div_icon_0dac4ff820fe47748ff16422ba9fa3d7 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e5.Othaya Sewerage\u003c/div\u003e"});
+            marker_d82ec3c632b84afb9f51152b97e7050d.setIcon(div_icon_0dac4ff820fe47748ff16422ba9fa3d7);
+        
+    
+        var popup_25be657b92334a71b17847eca533d254 = L.popup({"maxWidth": 300});
+
+        
+            var html_19d9caf810404688aabf992d7cdc90a0 = $(`<div id="html_19d9caf810404688aabf992d7cdc90a0" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Othaya Sewerage <br><p> <strong>Scope</strong>: Laying of 7.8 Km Sewer Lines of Diameter 100mm-225mm. Rehabilitation of an ablution block. Construction of 1No. sludge drying bed.  <br><p> <strong>Population to be Served</strong>: 10000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_25be657b92334a71b17847eca533d254.setContent(html_19d9caf810404688aabf992d7cdc90a0);
+        
+
+        marker_d82ec3c632b84afb9f51152b97e7050d.bindPopup(popup_25be657b92334a71b17847eca533d254)
+        ;
+
+        
+    
+    
+            var feature_group_ee522be29a0d445bb1646f0b1aee8787 = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_7b5407d672ab418698039605eabf5b49 = L.marker(
+                [-0.22098, 37.894925],
+                {}
+            ).addTo(feature_group_ee522be29a0d445bb1646f0b1aee8787);
+        
+    
+            var div_icon_7129d1c1e5334de3acc6be1e29be0c72 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e14.Ura 4 Phase II\u003c/div\u003e"});
+            marker_7b5407d672ab418698039605eabf5b49.setIcon(div_icon_7129d1c1e5334de3acc6be1e29be0c72);
+        
+    
+        var popup_ba75dce825fb41ecb795f77183b12ba1 = L.popup({"maxWidth": 300});
+
+        
+            var html_36baf6a3f8d44ff0aa7c81820f553ef5 = $(`<div id="html_36baf6a3f8d44ff0aa7c81820f553ef5" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Ura 4 Phase II <br><p> <strong>Scope</strong>: Construction of concrete lining on the dam wall <br><p> <strong>Population to be Served</strong>: 4000 <br><p> <strong>Progress%</strong>: 35</div>`)[0];
+            popup_ba75dce825fb41ecb795f77183b12ba1.setContent(html_36baf6a3f8d44ff0aa7c81820f553ef5);
+        
+
+        marker_7b5407d672ab418698039605eabf5b49.bindPopup(popup_ba75dce825fb41ecb795f77183b12ba1)
+        ;
+
+        
+    
+    
+            var marker_2d602ca4403b41929c135b6fe701b21c = L.marker(
+                [-0.226918, 37.577013],
+                {}
+            ).addTo(feature_group_ee522be29a0d445bb1646f0b1aee8787);
+        
+    
+            var div_icon_c74188efda7f4c8dbecd1568fa255599 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e15.Thambo Dam\u003c/div\u003e"});
+            marker_2d602ca4403b41929c135b6fe701b21c.setIcon(div_icon_c74188efda7f4c8dbecd1568fa255599);
+        
+    
+        var popup_b000402d5e5843cb8e281ee4bc8ed90a = L.popup({"maxWidth": 300});
+
+        
+            var html_2e9b774e37fc4780a94bdb20e734e4e1 = $(`<div id="html_2e9b774e37fc4780a94bdb20e734e4e1" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Thambo Dam <br><p> <strong>Scope</strong>: Construction of an 18m high zoned  earthfill dam with an 82m long crest ? Construction of an impervious clay core as a a cut off in the foundation ? Construction of an open channel Spillway with a 20m long lined section and a flip bucket at the terminal point ? Construction of  a 5m  wide access road and improve it to gravel standards ? Construction of a River Diversion System by way  of laying a 600m diameter Double Wall Corrugated  pipe well anchored in Cut off collars and support  blocks at every three meter intervals & laying  of a 150mm diameter draw off pipe.The 600mm  will serve as a scour pipe <br><p> <strong>Population to be Served</strong>: 64021 <br><p> <strong>Progress%</strong>: 40</div>`)[0];
+            popup_b000402d5e5843cb8e281ee4bc8ed90a.setContent(html_2e9b774e37fc4780a94bdb20e734e4e1);
+        
+
+        marker_2d602ca4403b41929c135b6fe701b21c.bindPopup(popup_b000402d5e5843cb8e281ee4bc8ed90a)
+        ;
+
+        
+    
+    
+            var marker_96d8a67419064444968b38064f5bd848 = L.marker(
+                [-0.18684, 37.564888],
+                {}
+            ).addTo(feature_group_ee522be29a0d445bb1646f0b1aee8787);
+        
+    
+            var div_icon_0f37979038ec499ca8a5e934b955ac2f = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e19.Kanjogu Dam \u003c/div\u003e"});
+            marker_96d8a67419064444968b38064f5bd848.setIcon(div_icon_0f37979038ec499ca8a5e934b955ac2f);
+        
+    
+        var popup_28bf789bac7e46a5bce1523cd3049e1b = L.popup({"maxWidth": 300});
+
+        
+            var html_488e064440004b5caa346c62867e19c0 = $(`<div id="html_488e064440004b5caa346c62867e19c0" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kanjogu Dam  <br><p> <strong>Scope</strong>: Construction of an 18m high zoned  earthfill dam  with an 180 m long crest ? Construction of an impervious clay with a cut off in the foundation ? Construction of an open  channel Spillway with a flip bucket energy  dissipator? Construction of  a 6m wide access road and improve it to gravel standards ? Construction of a twin  reinforced concrete (RC) diversion culverts  including a RC intake with a 150mm diameter draw off pipe and a 600mm diameter scour pipe <br><p> <strong>Population to be Served</strong>: 110000 <br><p> <strong>Progress%</strong>: 2</div>`)[0];
+            popup_28bf789bac7e46a5bce1523cd3049e1b.setContent(html_488e064440004b5caa346c62867e19c0);
+        
+
+        marker_96d8a67419064444968b38064f5bd848.bindPopup(popup_28bf789bac7e46a5bce1523cd3049e1b)
+        ;
+
+        
+    
+    
+            var marker_efbd58767f03437598a51d7fab8101a0 = L.marker(
+                [0.190604, 37.872764],
+                {}
+            ).addTo(feature_group_ee522be29a0d445bb1646f0b1aee8787);
+        
+    
+            var div_icon_43f05aa149c443499d2b323708becf01 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e3.Thangatha Spillway\u003c/div\u003e"});
+            marker_efbd58767f03437598a51d7fab8101a0.setIcon(div_icon_43f05aa149c443499d2b323708becf01);
+        
+    
+        var popup_43cd130dbbd94a61b478c4a770d1ea14 = L.popup({"maxWidth": 300});
+
+        
+            var html_a6313e70ea1242ad93cc48da0b554fc6 = $(`<div id="html_a6313e70ea1242ad93cc48da0b554fc6" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Thangatha Spillway <br><p> <strong>Scope</strong>: Repair of spillway <br><p> <strong>Population to be Served</strong>: 1250 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_43cd130dbbd94a61b478c4a770d1ea14.setContent(html_a6313e70ea1242ad93cc48da0b554fc6);
+        
+
+        marker_efbd58767f03437598a51d7fab8101a0.bindPopup(popup_43cd130dbbd94a61b478c4a770d1ea14)
+        ;
+
+        
+    
+    
+            var feature_group_d183bc26b1784903bfb79a491e7e5071 = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_e696d8fe6baf454baf8c031b9f7d461b = L.marker(
+                [-0.22098, 37.894925],
+                {}
+            ).addTo(feature_group_d183bc26b1784903bfb79a491e7e5071);
+        
+    
+            var div_icon_05ef9629f536437f93212e245ba8f7ad = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e14.Ura 4 Phase II\u003c/div\u003e"});
+            marker_e696d8fe6baf454baf8c031b9f7d461b.setIcon(div_icon_05ef9629f536437f93212e245ba8f7ad);
+        
+    
+        var popup_5a0823bea73b430291cdd123c624a528 = L.popup({"maxWidth": 300});
+
+        
+            var html_2166f1b506d1407e882924034e8c6796 = $(`<div id="html_2166f1b506d1407e882924034e8c6796" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Ura 4 Phase II <br><p> <strong>Scope</strong>: Construction of concrete lining on the dam wall <br><p> <strong>Population to be Served</strong>: 4000 <br><p> <strong>Progress%</strong>: 35</div>`)[0];
+            popup_5a0823bea73b430291cdd123c624a528.setContent(html_2166f1b506d1407e882924034e8c6796);
+        
+
+        marker_e696d8fe6baf454baf8c031b9f7d461b.bindPopup(popup_5a0823bea73b430291cdd123c624a528)
+        ;
+
+        
+    
+    
+            var marker_fe499e6291d241f4933bcb3f2a163a6d = L.marker(
+                [-0.226918, 37.577013],
+                {}
+            ).addTo(feature_group_d183bc26b1784903bfb79a491e7e5071);
+        
+    
+            var div_icon_86b539b30f2b44b1900f1dc95ce121cb = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e15.Thambo Dam\u003c/div\u003e"});
+            marker_fe499e6291d241f4933bcb3f2a163a6d.setIcon(div_icon_86b539b30f2b44b1900f1dc95ce121cb);
+        
+    
+        var popup_5e534aad3d9548e38733afd421512210 = L.popup({"maxWidth": 300});
+
+        
+            var html_2e402dc06470472fbcd5a814c36344f8 = $(`<div id="html_2e402dc06470472fbcd5a814c36344f8" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Thambo Dam <br><p> <strong>Scope</strong>: Construction of an 18m high zoned  earthfill dam with an 82m long crest ? Construction of an impervious clay core as a a cut off in the foundation ? Construction of an open channel Spillway with a 20m long lined section and a flip bucket at the terminal point ? Construction of  a 5m  wide access road and improve it to gravel standards ? Construction of a River Diversion System by way  of laying a 600m diameter Double Wall Corrugated  pipe well anchored in Cut off collars and support  blocks at every three meter intervals & laying  of a 150mm diameter draw off pipe.The 600mm  will serve as a scour pipe <br><p> <strong>Population to be Served</strong>: 64021 <br><p> <strong>Progress%</strong>: 40</div>`)[0];
+            popup_5e534aad3d9548e38733afd421512210.setContent(html_2e402dc06470472fbcd5a814c36344f8);
+        
+
+        marker_fe499e6291d241f4933bcb3f2a163a6d.bindPopup(popup_5e534aad3d9548e38733afd421512210)
+        ;
+
+        
+    
+    
+            var marker_6b6158466f644746872a105a8e919a59 = L.marker(
+                [-0.18684, 37.564888],
+                {}
+            ).addTo(feature_group_d183bc26b1784903bfb79a491e7e5071);
+        
+    
+            var div_icon_8e1a4a97a978401db426a8be5db8fc40 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e19.Kanjogu Dam \u003c/div\u003e"});
+            marker_6b6158466f644746872a105a8e919a59.setIcon(div_icon_8e1a4a97a978401db426a8be5db8fc40);
+        
+    
+        var popup_98cacc1e584849049eabe7eaa6b2c489 = L.popup({"maxWidth": 300});
+
+        
+            var html_92373e7d676246a48ce9690687830fb0 = $(`<div id="html_92373e7d676246a48ce9690687830fb0" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kanjogu Dam  <br><p> <strong>Scope</strong>: Construction of an 18m high zoned  earthfill dam  with an 180 m long crest ? Construction of an impervious clay with a cut off in the foundation ? Construction of an open  channel Spillway with a flip bucket energy  dissipator? Construction of  a 6m wide access road and improve it to gravel standards ? Construction of a twin  reinforced concrete (RC) diversion culverts  including a RC intake with a 150mm diameter draw off pipe and a 600mm diameter scour pipe <br><p> <strong>Population to be Served</strong>: 110000 <br><p> <strong>Progress%</strong>: 2</div>`)[0];
+            popup_98cacc1e584849049eabe7eaa6b2c489.setContent(html_92373e7d676246a48ce9690687830fb0);
+        
+
+        marker_6b6158466f644746872a105a8e919a59.bindPopup(popup_98cacc1e584849049eabe7eaa6b2c489)
+        ;
+
+        
+    
+    
+            var marker_989ed142defb445590d76a74506c605f = L.marker(
+                [0.190604, 37.872764],
+                {}
+            ).addTo(feature_group_d183bc26b1784903bfb79a491e7e5071);
+        
+    
+            var div_icon_bd5abaa246244cda9d2d9972dc09b87d = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e3.Thangatha Spillway\u003c/div\u003e"});
+            marker_989ed142defb445590d76a74506c605f.setIcon(div_icon_bd5abaa246244cda9d2d9972dc09b87d);
+        
+    
+        var popup_d9d3eeab7f5746fe9e16f206c7f6f0c5 = L.popup({"maxWidth": 300});
+
+        
+            var html_8a073838b07f44878850b447a42aeece = $(`<div id="html_8a073838b07f44878850b447a42aeece" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Thangatha Spillway <br><p> <strong>Scope</strong>: Repair of spillway <br><p> <strong>Population to be Served</strong>: 1250 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_d9d3eeab7f5746fe9e16f206c7f6f0c5.setContent(html_8a073838b07f44878850b447a42aeece);
+        
+
+        marker_989ed142defb445590d76a74506c605f.bindPopup(popup_d9d3eeab7f5746fe9e16f206c7f6f0c5)
+        ;
+
+        
+    
+    
+            var feature_group_34a8242ebf2a425e94b393e0f056c95a = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_4f6e0b111d6a469c81f45d17900da162 = L.marker(
+                [-0.291346517, 37.01562384],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_de806d7514cd44e4a11026d39c45d187 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e3.Githunguri Community\u003c/div\u003e"});
+            marker_4f6e0b111d6a469c81f45d17900da162.setIcon(div_icon_de806d7514cd44e4a11026d39c45d187);
+        
+    
+        var popup_c2d9e530f2ab480da52ff920a06bd251 = L.popup({"maxWidth": 300});
+
+        
+            var html_804744ffaeaa422eb1dcb32c0e013e8f = $(`<div id="html_804744ffaeaa422eb1dcb32c0e013e8f" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Githunguri Community <br><p> <strong>Scope</strong>: Equipping with; 12m high elevated steel tank (24m3) 50m long Pipeline solarization, fencing, pump house, Guard house and Water Kiosk <br><p> <strong>Population to be Served</strong>: 3250 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_c2d9e530f2ab480da52ff920a06bd251.setContent(html_804744ffaeaa422eb1dcb32c0e013e8f);
+        
+
+        marker_4f6e0b111d6a469c81f45d17900da162.bindPopup(popup_c2d9e530f2ab480da52ff920a06bd251)
+        ;
+
+        
+    
+    
+            var marker_16608f36948541b8ae1952ac505d97dc = L.marker(
+                [-0.693983201, 37.30084078],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_32afcd5b288e4b22bd4ae1a5ab1ac1c8 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e13.Mugaa Primary School  borehole\u003c/div\u003e"});
+            marker_16608f36948541b8ae1952ac505d97dc.setIcon(div_icon_32afcd5b288e4b22bd4ae1a5ab1ac1c8);
+        
+    
+        var popup_388aeac825114853a2d587c226ee60da = L.popup({"maxWidth": 300});
+
+        
+            var html_ed59507cfe3b4f1894480af3e77ba9c1 = $(`<div id="html_ed59507cfe3b4f1894480af3e77ba9c1" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Mugaa Primary School  borehole <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 500 <br><p> <strong>Progress%</strong>: 25</div>`)[0];
+            popup_388aeac825114853a2d587c226ee60da.setContent(html_ed59507cfe3b4f1894480af3e77ba9c1);
+        
+
+        marker_16608f36948541b8ae1952ac505d97dc.bindPopup(popup_388aeac825114853a2d587c226ee60da)
+        ;
+
+        
+    
+    
+            var marker_16b61b7e524547e1bf466c5057ea19fd = L.marker(
+                [-0.2699, 36.8664],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_fac87e483fe9406590800f84c06afb17 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e4.Muthuini Community\u003c/div\u003e"});
+            marker_16b61b7e524547e1bf466c5057ea19fd.setIcon(div_icon_fac87e483fe9406590800f84c06afb17);
+        
+    
+        var popup_3514d4a5d95041b1af758affcc44de4a = L.popup({"maxWidth": 300});
+
+        
+            var html_e2a1c2a8f0aa4d30b69054a11fb738d3 = $(`<div id="html_e2a1c2a8f0aa4d30b69054a11fb738d3" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Muthuini Community <br><p> <strong>Scope</strong>: Equipping with solar system <br><p> <strong>Population to be Served</strong>: 2000 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_3514d4a5d95041b1af758affcc44de4a.setContent(html_e2a1c2a8f0aa4d30b69054a11fb738d3);
+        
+
+        marker_16b61b7e524547e1bf466c5057ea19fd.bindPopup(popup_3514d4a5d95041b1af758affcc44de4a)
+        ;
+
+        
+    
+    
+            var marker_5642e13e3f6c4e518eae743243d0c41e = L.marker(
+                [-0.61732378, 37.27484222],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_40628bb4b04a4f5c96f6c2356a282dad = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e12.Gitoo - ini Primary school\u003c/div\u003e"});
+            marker_5642e13e3f6c4e518eae743243d0c41e.setIcon(div_icon_40628bb4b04a4f5c96f6c2356a282dad);
+        
+    
+        var popup_91365217418649acb9ea955fb1061be9 = L.popup({"maxWidth": 300});
+
+        
+            var html_42d11a9d771648bab53748394db4b9a7 = $(`<div id="html_42d11a9d771648bab53748394db4b9a7" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Gitoo - ini Primary school <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 500 <br><p> <strong>Progress%</strong>: 60</div>`)[0];
+            popup_91365217418649acb9ea955fb1061be9.setContent(html_42d11a9d771648bab53748394db4b9a7);
+        
+
+        marker_5642e13e3f6c4e518eae743243d0c41e.bindPopup(popup_91365217418649acb9ea955fb1061be9)
+        ;
+
+        
+    
+    
+            var marker_7cae8f0e3bf841c7ac3ea8c32363474f = L.marker(
+                [-0.59195183, 36.91789693],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_85f5248f712d4dbb9a53afc4bff3834d = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e8.Chinga Girls\u003c/div\u003e"});
+            marker_7cae8f0e3bf841c7ac3ea8c32363474f.setIcon(div_icon_85f5248f712d4dbb9a53afc4bff3834d);
+        
+    
+        var popup_f05280f1448e4557ad56d4d096fcc997 = L.popup({"maxWidth": 300});
+
+        
+            var html_93fdb5809cc142be9cb2da45ebad43f5 = $(`<div id="html_93fdb5809cc142be9cb2da45ebad43f5" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Chinga Girls <br><p> <strong>Scope</strong>: Equipping with solar <br><p> <strong>Population to be Served</strong>: 500 <br><p> <strong>Progress%</strong>: 80</div>`)[0];
+            popup_f05280f1448e4557ad56d4d096fcc997.setContent(html_93fdb5809cc142be9cb2da45ebad43f5);
+        
+
+        marker_7cae8f0e3bf841c7ac3ea8c32363474f.bindPopup(popup_f05280f1448e4557ad56d4d096fcc997)
+        ;
+
+        
+    
+    
+            var marker_495a8f73e1014308ade6f2cfa914a4e1 = L.marker(
+                [-0.051088532, 37.83161517],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_2a50998661a5492f812efa83f2964f74 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e1.Kauthene Primary School borehole\u003c/div\u003e"});
+            marker_495a8f73e1014308ade6f2cfa914a4e1.setIcon(div_icon_2a50998661a5492f812efa83f2964f74);
+        
+    
+        var popup_ed45edd31c4144f3b279b93026d65577 = L.popup({"maxWidth": 300});
+
+        
+            var html_21e000f107b2431ca3425623d88b9bc2 = $(`<div id="html_21e000f107b2431ca3425623d88b9bc2" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kauthene Primary School borehole <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 450 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_ed45edd31c4144f3b279b93026d65577.setContent(html_21e000f107b2431ca3425623d88b9bc2);
+        
+
+        marker_495a8f73e1014308ade6f2cfa914a4e1.bindPopup(popup_ed45edd31c4144f3b279b93026d65577)
+        ;
+
+        
+    
+    
+            var marker_20491bc479624505b0a48560caceb8bd = L.marker(
+                [-0.019592474, 37.84511086],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_0d83fd7ced7349148756be432ab8b985 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e2.Nkuura Pri\u003c/div\u003e"});
+            marker_20491bc479624505b0a48560caceb8bd.setIcon(div_icon_0d83fd7ced7349148756be432ab8b985);
+        
+    
+        var popup_0f17bb1338ab41dab0c3af29f7813cef = L.popup({"maxWidth": 300});
+
+        
+            var html_83680ae019b54fae9c7c2e10284cdd54 = $(`<div id="html_83680ae019b54fae9c7c2e10284cdd54" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Nkuura Pri <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 500 <br><p> <strong>Progress%</strong>: 75</div>`)[0];
+            popup_0f17bb1338ab41dab0c3af29f7813cef.setContent(html_83680ae019b54fae9c7c2e10284cdd54);
+        
+
+        marker_20491bc479624505b0a48560caceb8bd.bindPopup(popup_0f17bb1338ab41dab0c3af29f7813cef)
+        ;
+
+        
+    
+    
+            var marker_1490f64f1d2a4c64a519652451e2efab = L.marker(
+                [-0.17135, 37.02558],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_c7bef0ec65714eb3a6b3808cdeb7309e = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e6.Naromoru Borehole\u003c/div\u003e"});
+            marker_1490f64f1d2a4c64a519652451e2efab.setIcon(div_icon_c7bef0ec65714eb3a6b3808cdeb7309e);
+        
+    
+        var popup_1a672e6f7b2c4cd2a344a82e4b3115e9 = L.popup({"maxWidth": 300});
+
+        
+            var html_fd65fb97ee4f4d678b14de9b1be342b9 = $(`<div id="html_fd65fb97ee4f4d678b14de9b1be342b9" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Naromoru Borehole <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 1500 <br><p> <strong>Progress%</strong>: 95</div>`)[0];
+            popup_1a672e6f7b2c4cd2a344a82e4b3115e9.setContent(html_fd65fb97ee4f4d678b14de9b1be342b9);
+        
+
+        marker_1490f64f1d2a4c64a519652451e2efab.bindPopup(popup_1a672e6f7b2c4cd2a344a82e4b3115e9)
+        ;
+
+        
+    
+    
+            var marker_1be38b2e483e4b7986c8382c14ffedf8 = L.marker(
+                [1.287537, 37.08511],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_b30d2efd1efa42e0b582daa4a0780d43 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e5.Thumbereria Community\u003c/div\u003e"});
+            marker_1be38b2e483e4b7986c8382c14ffedf8.setIcon(div_icon_b30d2efd1efa42e0b582daa4a0780d43);
+        
+    
+        var popup_a3d70a95d2f742f681899c43631c8943 = L.popup({"maxWidth": 300});
+
+        
+            var html_5adf1f7bfd5a48879c06f52dca98cc4b = $(`<div id="html_5adf1f7bfd5a48879c06f52dca98cc4b" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Thumbereria Community <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 1200 <br><p> <strong>Progress%</strong>: 95</div>`)[0];
+            popup_a3d70a95d2f742f681899c43631c8943.setContent(html_5adf1f7bfd5a48879c06f52dca98cc4b);
+        
+
+        marker_1be38b2e483e4b7986c8382c14ffedf8.bindPopup(popup_a3d70a95d2f742f681899c43631c8943)
+        ;
+
+        
+    
+    
+            var marker_ac8421b826104e41ab8882656a6d3bcf = L.marker(
+                [-0.29139, 36.88834],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_73d6c12671e14ec995bb46c0c9229110 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e10.Kianyaga High\u003c/div\u003e"});
+            marker_ac8421b826104e41ab8882656a6d3bcf.setIcon(div_icon_73d6c12671e14ec995bb46c0c9229110);
+        
+    
+        var popup_a2bfb3db405a43f7ab0e36919a9ae7b8 = L.popup({"maxWidth": 300});
+
+        
+            var html_db1a01aa5ebe4e4182e85536ca8c92dc = $(`<div id="html_db1a01aa5ebe4e4182e85536ca8c92dc" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kianyaga High <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 2000 <br><p> <strong>Progress%</strong>: 70</div>`)[0];
+            popup_a2bfb3db405a43f7ab0e36919a9ae7b8.setContent(html_db1a01aa5ebe4e4182e85536ca8c92dc);
+        
+
+        marker_ac8421b826104e41ab8882656a6d3bcf.bindPopup(popup_a2bfb3db405a43f7ab0e36919a9ae7b8)
+        ;
+
+        
+    
+    
+            var marker_e585baebe0a841afb0376ba400124bd6 = L.marker(
+                [-0.56879, 37.11366],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_4071bc636c4d43c396e09486246071dc = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e11.Matuto Pri\u003c/div\u003e"});
+            marker_e585baebe0a841afb0376ba400124bd6.setIcon(div_icon_4071bc636c4d43c396e09486246071dc);
+        
+    
+        var popup_fc9cc54c292443dd82ac4f6dfe3d0cde = L.popup({"maxWidth": 300});
+
+        
+            var html_142632d3616546d3bb6db3cfbc21c9a0 = $(`<div id="html_142632d3616546d3bb6db3cfbc21c9a0" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Matuto Pri <br><p> <strong>Scope</strong>: 12m high elevated steel tank 150m long Pipeline solarization, fencing, pump house. <br><p> <strong>Population to be Served</strong>: 200 <br><p> <strong>Progress%</strong>: 60</div>`)[0];
+            popup_fc9cc54c292443dd82ac4f6dfe3d0cde.setContent(html_142632d3616546d3bb6db3cfbc21c9a0);
+        
+
+        marker_e585baebe0a841afb0376ba400124bd6.bindPopup(popup_fc9cc54c292443dd82ac4f6dfe3d0cde)
+        ;
+
+        
+    
+    
+            var marker_ff101c99c47e41229a2ce831c7689abf = L.marker(
+                [-0.27352, 36.82073],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_b3448f98a60a4683bc3c22f19f193b21 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e9.Kinyaiti Kendaki\u003c/div\u003e"});
+            marker_ff101c99c47e41229a2ce831c7689abf.setIcon(div_icon_b3448f98a60a4683bc3c22f19f193b21);
+        
+    
+        var popup_05a1756de99844b7a9476037500374f8 = L.popup({"maxWidth": 300});
+
+        
+            var html_78ac155616df4dc49dfaef335c0cff88 = $(`<div id="html_78ac155616df4dc49dfaef335c0cff88" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kinyaiti Kendaki <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 2000 <br><p> <strong>Progress%</strong>: 90</div>`)[0];
+            popup_05a1756de99844b7a9476037500374f8.setContent(html_78ac155616df4dc49dfaef335c0cff88);
+        
+
+        marker_ff101c99c47e41229a2ce831c7689abf.bindPopup(popup_05a1756de99844b7a9476037500374f8)
+        ;
+
+        
+    
+    
+            var marker_c46e678f044948d29bd833f3b20b9ed0 = L.marker(
+                [0.18598, 36.99283],
+                {}
+            ).addTo(feature_group_34a8242ebf2a425e94b393e0f056c95a);
+        
+    
+            var div_icon_f662eaa79ec94e4591d70ae5da307c8e = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e7.Kaongo Ka aka\u003c/div\u003e"});
+            marker_c46e678f044948d29bd833f3b20b9ed0.setIcon(div_icon_f662eaa79ec94e4591d70ae5da307c8e);
+        
+    
+        var popup_8b0b90e2aeb84c9c90d64c105f69946d = L.popup({"maxWidth": 300});
+
+        
+            var html_cf9d716c3f4d4c2683d348b9e72aaffe = $(`<div id="html_cf9d716c3f4d4c2683d348b9e72aaffe" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kaongo Ka aka <br><p> <strong>Scope</strong>: Equipping with solar system with allied works <br><p> <strong>Population to be Served</strong>: 500 <br><p> <strong>Progress%</strong>: 90</div>`)[0];
+            popup_8b0b90e2aeb84c9c90d64c105f69946d.setContent(html_cf9d716c3f4d4c2683d348b9e72aaffe);
+        
+
+        marker_c46e678f044948d29bd833f3b20b9ed0.bindPopup(popup_8b0b90e2aeb84c9c90d64c105f69946d)
+        ;
+
+        
+    
+    
+            var feature_group_f9dfe8a8420d46408c8b21da21ec9780 = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_32ff6669ff024898ba52eba325c0b641 = L.marker(
+                [-0.717091927, 37.43547225],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_ba27b9ae58d140edaf24b3dd43b680a2 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e1.Kianyaga Boys High School\u003c/div\u003e"});
+            marker_32ff6669ff024898ba52eba325c0b641.setIcon(div_icon_ba27b9ae58d140edaf24b3dd43b680a2);
+        
+    
+        var popup_045ca68ca6944071971f76e15d1da78d = L.popup({"maxWidth": 300});
+
+        
+            var html_b29d4364ae104134b28c2affc3e8c8e5 = $(`<div id="html_b29d4364ae104134b28c2affc3e8c8e5" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kianyaga Boys High School <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 2,000 <br><p> <strong>Drilled Depth</strong>: 276m <br><p> <strong>Yield m3/h</strong>: 10m3/hr <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_045ca68ca6944071971f76e15d1da78d.setContent(html_b29d4364ae104134b28c2affc3e8c8e5);
+        
+
+        marker_32ff6669ff024898ba52eba325c0b641.bindPopup(popup_045ca68ca6944071971f76e15d1da78d)
+        ;
+
+        
+    
+    
+            var marker_3fcae0a52cf34481a979ea939744e3db = L.marker(
+                [-0.116368246, 37.84081397],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_c37c71b0a28b496b9c1267583c232c5b = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e2.Irundune-Ikumbo\u003c/div\u003e"});
+            marker_3fcae0a52cf34481a979ea939744e3db.setIcon(div_icon_c37c71b0a28b496b9c1267583c232c5b);
+        
+    
+        var popup_f50b94c58b664887b838d2582f2c4cd5 = L.popup({"maxWidth": 300});
+
+        
+            var html_7ace7dea0aa94b3c83f620c5ed5b38dc = $(`<div id="html_7ace7dea0aa94b3c83f620c5ed5b38dc" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Irundune-Ikumbo <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 2,000 <br><p> <strong>Drilled Depth</strong>: 180 <br><p> <strong>Yield m3/h</strong>: 4.7 <br><p> <strong>Progress%</strong>: 100% complete Drilling and development and test pumping complete</div>`)[0];
+            popup_f50b94c58b664887b838d2582f2c4cd5.setContent(html_7ace7dea0aa94b3c83f620c5ed5b38dc);
+        
+
+        marker_3fcae0a52cf34481a979ea939744e3db.bindPopup(popup_f50b94c58b664887b838d2582f2c4cd5)
+        ;
+
+        
+    
+    
+            var marker_46a738fd44fa4feea488d623db9bbb4c = L.marker(
+                [-0.506744346, 36.56780649],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_a196533901524198ae12be56e8e2e7e9 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e3.Mwihoko Pri\u003c/div\u003e"});
+            marker_46a738fd44fa4feea488d623db9bbb4c.setIcon(div_icon_a196533901524198ae12be56e8e2e7e9);
+        
+    
+        var popup_d49c40c1888a410484d2ab76060995b3 = L.popup({"maxWidth": 300});
+
+        
+            var html_1a473a69ecf24827921b2758524ae4f0 = $(`<div id="html_1a473a69ecf24827921b2758524ae4f0" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Mwihoko Pri <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 1000 <br><p> <strong>Drilled Depth</strong>: 300 <br><p> <strong>Yield m3/h</strong>: 9.7 <br><p> <strong>Progress%</strong>: 100% complete Drilling and development and test pumping complete</div>`)[0];
+            popup_d49c40c1888a410484d2ab76060995b3.setContent(html_1a473a69ecf24827921b2758524ae4f0);
+        
+
+        marker_46a738fd44fa4feea488d623db9bbb4c.bindPopup(popup_d49c40c1888a410484d2ab76060995b3)
+        ;
+
+        
+    
+    
+            var marker_b0f278ff99d040a9a86c3cf4a3ec85e8 = L.marker(
+                [-0.40729, 36.38646044],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_1adde912a902457589a89f30b481824d = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e4.Mugunda Dispensary\u003c/div\u003e"});
+            marker_b0f278ff99d040a9a86c3cf4a3ec85e8.setIcon(div_icon_1adde912a902457589a89f30b481824d);
+        
+    
+        var popup_8a42485f551146abb68193207a9a3b78 = L.popup({"maxWidth": 300});
+
+        
+            var html_4a9f5cddbcb649dfa01eafd39d517228 = $(`<div id="html_4a9f5cddbcb649dfa01eafd39d517228" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Mugunda Dispensary <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 1000 <br><p> <strong>Drilled Depth</strong>: 280 <br><p> <strong>Yield m3/h</strong>: 13 <br><p> <strong>Progress%</strong>: 100% complete Drilling and development and test pumping complete</div>`)[0];
+            popup_8a42485f551146abb68193207a9a3b78.setContent(html_4a9f5cddbcb649dfa01eafd39d517228);
+        
+
+        marker_b0f278ff99d040a9a86c3cf4a3ec85e8.bindPopup(popup_8a42485f551146abb68193207a9a3b78)
+        ;
+
+        
+    
+    
+            var marker_151c8012e5074eaba1a166476c3ed66d = L.marker(
+                [-0.419111915, 36.36712],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_78c7d1b2bf2242cbb0a5800d9b839c02 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e5.Mugaka Pri\u003c/div\u003e"});
+            marker_151c8012e5074eaba1a166476c3ed66d.setIcon(div_icon_78c7d1b2bf2242cbb0a5800d9b839c02);
+        
+    
+        var popup_7d0fc9e9a5964aa786f92fc1ff82951e = L.popup({"maxWidth": 300});
+
+        
+            var html_22f9116c630346b2bd37b6048adb5426 = $(`<div id="html_22f9116c630346b2bd37b6048adb5426" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Mugaka Pri <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 1000 <br><p> <strong>Drilled Depth</strong>: 289 <br><p> <strong>Yield m3/h</strong>: 13 <br><p> <strong>Progress%</strong>: 100% complete Drilling and development and test pumping complete</div>`)[0];
+            popup_7d0fc9e9a5964aa786f92fc1ff82951e.setContent(html_22f9116c630346b2bd37b6048adb5426);
+        
+
+        marker_151c8012e5074eaba1a166476c3ed66d.bindPopup(popup_7d0fc9e9a5964aa786f92fc1ff82951e)
+        ;
+
+        
+    
+    
+            var marker_1635f6065db54e4c9797debc5b468acb = L.marker(
+                [-0.69707, 37.11205],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_55a55e6c2ecd42fb85354dd131e08ed2 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e6.Maritati-Timau\u003c/div\u003e"});
+            marker_1635f6065db54e4c9797debc5b468acb.setIcon(div_icon_55a55e6c2ecd42fb85354dd131e08ed2);
+        
+    
+        var popup_b345a2b0a58c44149f8dc3deed241791 = L.popup({"maxWidth": 300});
+
+        
+            var html_deac76dc492a40f2a867bb014a45c042 = $(`<div id="html_deac76dc492a40f2a867bb014a45c042" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Maritati-Timau <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 4000 <br><p> <strong>Drilled Depth</strong>: 147.9 <br><p> <strong>Yield m3/h</strong>: 40 <br><p> <strong>Progress%</strong>: 70% overall progress</div>`)[0];
+            popup_b345a2b0a58c44149f8dc3deed241791.setContent(html_deac76dc492a40f2a867bb014a45c042);
+        
+
+        marker_1635f6065db54e4c9797debc5b468acb.bindPopup(popup_b345a2b0a58c44149f8dc3deed241791)
+        ;
+
+        
+    
+    
+            var marker_227500fad7314f76bf1c11c129eb22c7 = L.marker(
+                [-0.283964, 36.8894291],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_9ccc3acb38354ca9a91b32f7f4ac5c61 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e7.Gatagati Community\u003c/div\u003e"});
+            marker_227500fad7314f76bf1c11c129eb22c7.setIcon(div_icon_9ccc3acb38354ca9a91b32f7f4ac5c61);
+        
+    
+        var popup_5161f66e176248078d529a6b72b6d1d7 = L.popup({"maxWidth": 300});
+
+        
+            var html_362b64d53cfc4add83a1b0dad6b1e71c = $(`<div id="html_362b64d53cfc4add83a1b0dad6b1e71c" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Gatagati Community <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 2000 <br><p> <strong>Drilled Depth</strong>: 171 <br><p> <strong>Yield m3/h</strong>: 22.4 <br><p> <strong>Progress%</strong>: 70% overall progress</div>`)[0];
+            popup_5161f66e176248078d529a6b72b6d1d7.setContent(html_362b64d53cfc4add83a1b0dad6b1e71c);
+        
+
+        marker_227500fad7314f76bf1c11c129eb22c7.bindPopup(popup_5161f66e176248078d529a6b72b6d1d7)
+        ;
+
+        
+    
+    
+            var marker_b2154e7b927049c28ab3d4cec2c1a99b = L.marker(
+                [1.2838872, 38.8763191],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_736ff8c024fd4197bd9e4b9e8f47af68 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e8.Urru Dcc\u003c/div\u003e"});
+            marker_b2154e7b927049c28ab3d4cec2c1a99b.setIcon(div_icon_736ff8c024fd4197bd9e4b9e8f47af68);
+        
+    
+        var popup_3c4215ba37c04a0ebd75cabec33d8de9 = L.popup({"maxWidth": 300});
+
+        
+            var html_ba966f19b97349ccbd219481d1ec1338 = $(`<div id="html_ba966f19b97349ccbd219481d1ec1338" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Urru Dcc <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 1000 <br><p> <strong>Drilled Depth</strong>: 125 <br><p> <strong>Yield m3/h</strong>: 0 <br><p> <strong>Progress%</strong>: 50% overall progress Drilling on going with geotechnical challenges</div>`)[0];
+            popup_3c4215ba37c04a0ebd75cabec33d8de9.setContent(html_ba966f19b97349ccbd219481d1ec1338);
+        
+
+        marker_b2154e7b927049c28ab3d4cec2c1a99b.bindPopup(popup_3c4215ba37c04a0ebd75cabec33d8de9)
+        ;
+
+        
+    
+    
+            var marker_9496709b263f4e67b6a354ed496e47fd = L.marker(
+                [-0.283916, 36.764849],
+                {}
+            ).addTo(feature_group_f9dfe8a8420d46408c8b21da21ec9780);
+        
+    
+            var div_icon_04273edada394d72b7f15c409b9d1084 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e10.Kathagutari Pri\u003c/div\u003e"});
+            marker_9496709b263f4e67b6a354ed496e47fd.setIcon(div_icon_04273edada394d72b7f15c409b9d1084);
+        
+    
+        var popup_16525450d02449fda671bc6251a210b9 = L.popup({"maxWidth": 300});
+
+        
+            var html_8ffaa0fe9c9a4b3891ed287df8c3c99a = $(`<div id="html_8ffaa0fe9c9a4b3891ed287df8c3c99a" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kathagutari Pri <br><p> <strong>Scope</strong>: Drilling, development and test pumping <br><p> <strong>Population to be Served</strong>: 415 <br><p> <strong>Drilled Depth</strong>: 150 <br><p> <strong>Yield m3/h</strong>: Dry <br><p> <strong>Progress%</strong>: To be replaced</div>`)[0];
+            popup_16525450d02449fda671bc6251a210b9.setContent(html_8ffaa0fe9c9a4b3891ed287df8c3c99a);
+        
+
+        marker_9496709b263f4e67b6a354ed496e47fd.bindPopup(popup_16525450d02449fda671bc6251a210b9)
+        ;
+
+        
+    
+    
+            var feature_group_8a06dbf0922f4df4877e38530c5f8e14 = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_69e716e4986540e6a408a4db0f7d5036 = L.marker(
+                [-0.576929272, 37.19240975],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_0273e2215faf488e8e714d03f6b57e67 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e7.Kiangai Health Center\u003c/div\u003e"});
+            marker_69e716e4986540e6a408a4db0f7d5036.setIcon(div_icon_0273e2215faf488e8e714d03f6b57e67);
+        
+    
+        var popup_9b355b8bba7543f69a7970b1cb38bffc = L.popup({"maxWidth": 300});
+
+        
+            var html_1445778992cd4fbdba9b667e8d4f64c9 = $(`<div id="html_1445778992cd4fbdba9b667e8d4f64c9" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kiangai Health Center <br><p> <strong>Scope</strong>: Drilling, development, test pumping and equipping with solar system <br><p> <strong>Population to be Served</strong>: 100 <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_9b355b8bba7543f69a7970b1cb38bffc.setContent(html_1445778992cd4fbdba9b667e8d4f64c9);
+        
+
+        marker_69e716e4986540e6a408a4db0f7d5036.bindPopup(popup_9b355b8bba7543f69a7970b1cb38bffc)
+        ;
+
+        
+    
+    
+            var marker_380e55b1cf0546e4833ec3b8e1deace2 = L.marker(
+                [-0.61969659, 37.37091885],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_cc20127194db4cb88312c7f115ce9014 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e1.Kimbimbi Hospital\u003c/div\u003e"});
+            marker_380e55b1cf0546e4833ec3b8e1deace2.setIcon(div_icon_cc20127194db4cb88312c7f115ce9014);
+        
+    
+        var popup_1022dff3e3cb4a90aa5694952f1c1239 = L.popup({"maxWidth": 300});
+
+        
+            var html_4ebdd182500742a3be9ad789776399b1 = $(`<div id="html_4ebdd182500742a3be9ad789776399b1" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kimbimbi Hospital <br><p> <strong>Scope</strong>: Connect to Mwea Makima Water system 2.5km away Erection of 50m3 Pressed Steel Elevated Tank Improvement of rain harvesting facilities <br><p> <strong>Population to be Served</strong>: 500 <br><p> <strong>Progress%</strong>: 60</div>`)[0];
+            popup_1022dff3e3cb4a90aa5694952f1c1239.setContent(html_4ebdd182500742a3be9ad789776399b1);
+        
+
+        marker_380e55b1cf0546e4833ec3b8e1deace2.bindPopup(popup_1022dff3e3cb4a90aa5694952f1c1239)
+        ;
+
+        
+    
+    
+            var marker_efc4e6f4755e4fecb255ca278192b5b8 = L.marker(
+                [-0.669677073, 37.20629262],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_ed58bca7d2c241be90596d3c95f467a9 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e8.Sagana Sub County Hospital\u003c/div\u003e"});
+            marker_efc4e6f4755e4fecb255ca278192b5b8.setIcon(div_icon_ed58bca7d2c241be90596d3c95f467a9);
+        
+    
+        var popup_9f48569fb7ea40c9b3a8acaf4e3af9f3 = L.popup({"maxWidth": 300});
+
+        
+            var html_169af6a4e6fb489e81614df32ebc4e90 = $(`<div id="html_169af6a4e6fb489e81614df32ebc4e90" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Sagana Sub County Hospital <br><p> <strong>Scope</strong>: Drilling, development, test pumping and equipping with solar system <br><p> <strong>Population to be Served</strong>: 250 <br><p> <strong>Progress%</strong>: Drilling and test pumping complete. Drilled depth 131M Yield 16m3/hr. Overall Progress 100%</div>`)[0];
+            popup_9f48569fb7ea40c9b3a8acaf4e3af9f3.setContent(html_169af6a4e6fb489e81614df32ebc4e90);
+        
+
+        marker_efc4e6f4755e4fecb255ca278192b5b8.bindPopup(popup_9f48569fb7ea40c9b3a8acaf4e3af9f3)
+        ;
+
+        
+    
+    
+            var marker_07d0b2dc72cb4a55813c001e208b4a70 = L.marker(
+                [0.382938878, 37.98084446],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_5173caf563ed4fc5b49b57afba130870 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e2.Mutuati Hospital\u003c/div\u003e"});
+            marker_07d0b2dc72cb4a55813c001e208b4a70.setIcon(div_icon_5173caf563ed4fc5b49b57afba130870);
+        
+    
+        var popup_af9a1273acd74ddfbe635351990734a8 = L.popup({"maxWidth": 300});
+
+        
+            var html_bece21a0b3024cb9af778457abf46679 = $(`<div id="html_bece21a0b3024cb9af778457abf46679" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Mutuati Hospital <br><p> <strong>Scope</strong>: Drilling and equipping of borehole. Improvement of Water Supply <br><p> <strong>Population to be Served</strong>: 300 <br><p> <strong>Progress%</strong>: Drilled depth of 325M  Yield 2.1M3/Hr 225m3 tank at 90%  Overall progress of improvement of water supply - 98% </div>`)[0];
+            popup_af9a1273acd74ddfbe635351990734a8.setContent(html_bece21a0b3024cb9af778457abf46679);
+        
+
+        marker_07d0b2dc72cb4a55813c001e208b4a70.bindPopup(popup_af9a1273acd74ddfbe635351990734a8)
+        ;
+
+        
+    
+    
+            var marker_01b5d293d4844f5494cd72356e3dd3b3 = L.marker(
+                [-0.102599385, 38.01562988],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_d9045ba51e254177bbb134a3d4f9bd00 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e9.Gatunga Model Health Centre\u003c/div\u003e"});
+            marker_01b5d293d4844f5494cd72356e3dd3b3.setIcon(div_icon_d9045ba51e254177bbb134a3d4f9bd00);
+        
+    
+        var popup_ff49128ae6f64194905cbb1d3773eabb = L.popup({"maxWidth": 300});
+
+        
+            var html_5d2b42e91cd145938ae6b8eb4121c9a9 = $(`<div id="html_5d2b42e91cd145938ae6b8eb4121c9a9" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Gatunga Model Health Centre <br><p> <strong>Scope</strong>: Drilling, development, test pumping and equipping with solar system <br><p> <strong>Population to be Served</strong>: 150 <br><p> <strong>Progress%</strong>: Drilling and test pumping complete Drilled Depth 181M Yield 0.4m3/hr. Overall progress at 100%</div>`)[0];
+            popup_ff49128ae6f64194905cbb1d3773eabb.setContent(html_5d2b42e91cd145938ae6b8eb4121c9a9);
+        
+
+        marker_01b5d293d4844f5494cd72356e3dd3b3.bindPopup(popup_ff49128ae6f64194905cbb1d3773eabb)
+        ;
+
+        
+    
+    
+            var marker_7057403c04b64ab9b01246e32dec18b2 = L.marker(
+                [-0.760560065, 37.27848289],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_a9a772ef24a0400db8533547cdca1fc9 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e10.Makutano Dispensary\u003c/div\u003e"});
+            marker_7057403c04b64ab9b01246e32dec18b2.setIcon(div_icon_a9a772ef24a0400db8533547cdca1fc9);
+        
+    
+        var popup_74de2dfb13bd495897e1cd4824fc8ec0 = L.popup({"maxWidth": 300});
+
+        
+            var html_9991d74d448549bd8109e06435de55fc = $(`<div id="html_9991d74d448549bd8109e06435de55fc" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Makutano Dispensary <br><p> <strong>Scope</strong>: Drilling, development, test pumping and equipping with solar system <br><p> <strong>Population to be Served</strong>: 100 <br><p> <strong>Progress%</strong>: Drilling and test pumping complete Drilled Depth 212M Yield 2.5m3/hr.</div>`)[0];
+            popup_74de2dfb13bd495897e1cd4824fc8ec0.setContent(html_9991d74d448549bd8109e06435de55fc);
+        
+
+        marker_7057403c04b64ab9b01246e32dec18b2.bindPopup(popup_74de2dfb13bd495897e1cd4824fc8ec0)
+        ;
+
+        
+    
+    
+            var marker_60dc08e7980c41a6adcb9766ee199ea4 = L.marker(
+                [-0.660187553, 37.55376802],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_1d80aacb060f4e64a592603b071f8687 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e3.Kangungi Dispensary\u003c/div\u003e"});
+            marker_60dc08e7980c41a6adcb9766ee199ea4.setIcon(div_icon_1d80aacb060f4e64a592603b071f8687);
+        
+    
+        var popup_a285af9963a549b59034b88510ef94ef = L.popup({"maxWidth": 300});
+
+        
+            var html_aa66109b9f3f444da3fa8630ae8123f5 = $(`<div id="html_aa66109b9f3f444da3fa8630ae8123f5" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kangungi Dispensary <br><p> <strong>Scope</strong>: Erection of 50m3 Pressed Steel Elevated Tank .Construction of a 50 user septic tank and soak pit <br><p> <strong>Population to be Served</strong>: 150 <br><p> <strong>Progress%</strong>: Column base cast. Fabricating of tank materials complete Overall Progress 98% </div>`)[0];
+            popup_a285af9963a549b59034b88510ef94ef.setContent(html_aa66109b9f3f444da3fa8630ae8123f5);
+        
+
+        marker_60dc08e7980c41a6adcb9766ee199ea4.bindPopup(popup_a285af9963a549b59034b88510ef94ef)
+        ;
+
+        
+    
+    
+            var marker_1bf4faa1e4e74fc78dff8cc6d8c6560e = L.marker(
+                [-0.519849359, 37.69484303],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_b24e208e9eed4a33b0f3d6ea8980ab03 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e4.Gatiruri Health Center\u003c/div\u003e"});
+            marker_1bf4faa1e4e74fc78dff8cc6d8c6560e.setIcon(div_icon_b24e208e9eed4a33b0f3d6ea8980ab03);
+        
+    
+        var popup_239ee4d9134040528cfbff47924a6bca = L.popup({"maxWidth": 300});
+
+        
+            var html_5f21c096a0b043acaa80cc1840947aba = $(`<div id="html_5f21c096a0b043acaa80cc1840947aba" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Gatiruri Health Center <br><p> <strong>Scope</strong>: Drilling and pump testing <br><p> <strong>Population to be Served</strong>: 250 <br><p> <strong>Progress%</strong>: Drilling and test pumping complete Drilled depth 215 M   Yield  - 0.5m3/hr</div>`)[0];
+            popup_239ee4d9134040528cfbff47924a6bca.setContent(html_5f21c096a0b043acaa80cc1840947aba);
+        
+
+        marker_1bf4faa1e4e74fc78dff8cc6d8c6560e.bindPopup(popup_239ee4d9134040528cfbff47924a6bca)
+        ;
+
+        
+    
+    
+            var marker_da676629fa594f1496ff0c949ec35cbf = L.marker(
+                [-0.69193792, 37.79489727],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_cd1301cf96b849e6a4f209f3f5701e21 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e5.Kiambere Dispensary\u003c/div\u003e"});
+            marker_da676629fa594f1496ff0c949ec35cbf.setIcon(div_icon_cd1301cf96b849e6a4f209f3f5701e21);
+        
+    
+        var popup_0d18043bd2b3419dbe1ff02373144693 = L.popup({"maxWidth": 300});
+
+        
+            var html_8814386c232c4c94897880eacedcb775 = $(`<div id="html_8814386c232c4c94897880eacedcb775" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kiambere Dispensary <br><p> <strong>Scope</strong>: Drilling, development, test pumping and equipping with solar system <br><p> <strong>Population to be Served</strong>: 200 <br><p> <strong>Progress%</strong>: Drilling and test pumping complete Drilled depth 250m Yield - 0.8m3/hr</div>`)[0];
+            popup_0d18043bd2b3419dbe1ff02373144693.setContent(html_8814386c232c4c94897880eacedcb775);
+        
+
+        marker_da676629fa594f1496ff0c949ec35cbf.bindPopup(popup_0d18043bd2b3419dbe1ff02373144693)
+        ;
+
+        
+    
+    
+            var marker_0a9af5b6083d4901b30247c61be5dfb1 = L.marker(
+                [-0.377847784, 37.92067865],
+                {}
+            ).addTo(feature_group_8a06dbf0922f4df4877e38530c5f8e14);
+        
+    
+            var div_icon_6d9f7132948d4cd68d0fc9f1edc79b9c = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e6.Gatumbi Dispensary\u003c/div\u003e"});
+            marker_0a9af5b6083d4901b30247c61be5dfb1.setIcon(div_icon_6d9f7132948d4cd68d0fc9f1edc79b9c);
+        
+    
+        var popup_b67caa0c9c524a5c9e88258e1f67cb58 = L.popup({"maxWidth": 300});
+
+        
+            var html_079f097fecd040d991f5b1552f4171af = $(`<div id="html_079f097fecd040d991f5b1552f4171af" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Gatumbi Dispensary <br><p> <strong>Scope</strong>: -Erection of 50m3 Pressed Steel Elevated Tank - -Roof water harvesting including construction of 150m3 masonry tank <br><p> <strong>Population to be Served</strong>: 100 <br><p> <strong>Progress%</strong>: Tank at 100% Overall Progress 60%</div>`)[0];
+            popup_b67caa0c9c524a5c9e88258e1f67cb58.setContent(html_079f097fecd040d991f5b1552f4171af);
+        
+
+        marker_0a9af5b6083d4901b30247c61be5dfb1.bindPopup(popup_b67caa0c9c524a5c9e88258e1f67cb58)
+        ;
+
+        
+    
+    
+            var feature_group_bd9b4b6fe94d42d3a897850d1bae9144 = L.featureGroup(
+                {}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var marker_f20f8e76d6414f6ebb1b0016ed152758 = L.marker(
+                [-0.42772, 36.92873],
+                {}
+            ).addTo(feature_group_bd9b4b6fe94d42d3a897850d1bae9144);
+        
+    
+            var div_icon_c80303a8980a406f9fa5e048529d2538 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e1.Maji House Roofing\u003c/div\u003e"});
+            marker_f20f8e76d6414f6ebb1b0016ed152758.setIcon(div_icon_c80303a8980a406f9fa5e048529d2538);
+        
+    
+        var popup_8a6832bbdf5f4bb891fbba505bd64361 = L.popup({"maxWidth": 300});
+
+        
+            var html_c30084c0b28c42e6a5d8b7d5c7783943 = $(`<div id="html_c30084c0b28c42e6a5d8b7d5c7783943" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Maji House Roofing <br><p> <strong>Scope</strong>: Roofing of TWWDA Maji House - Western Wing <br><p> <strong>Population to be Served</strong>: nil <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_8a6832bbdf5f4bb891fbba505bd64361.setContent(html_c30084c0b28c42e6a5d8b7d5c7783943);
+        
+
+        marker_f20f8e76d6414f6ebb1b0016ed152758.bindPopup(popup_8a6832bbdf5f4bb891fbba505bd64361)
+        ;
+
+        
+    
+    
+            var marker_f304267164af4b2fa4df0af6010204a0 = L.marker(
+                [-0.54771, 36.86952],
+                {}
+            ).addTo(feature_group_bd9b4b6fe94d42d3a897850d1bae9144);
+        
+    
+            var div_icon_eb1a73d6cb0a4a8993c9a95d0ca634dd = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:blue; \"\u003e2.Kabebero Sec\u003c/div\u003e"});
+            marker_f304267164af4b2fa4df0af6010204a0.setIcon(div_icon_eb1a73d6cb0a4a8993c9a95d0ca634dd);
+        
+    
+        var popup_d5cbc5de0a334c748d6ab336de89945c = L.popup({"maxWidth": 300});
+
+        
+            var html_64c8a8873c0d426cb0f240871cc98c80 = $(`<div id="html_64c8a8873c0d426cb0f240871cc98c80" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Kabebero Sec <br><p> <strong>Scope</strong>: Construction of Kitchen <br><p> <strong>Population to be Served</strong>: nil <br><p> <strong>Progress%</strong>: 100</div>`)[0];
+            popup_d5cbc5de0a334c748d6ab336de89945c.setContent(html_64c8a8873c0d426cb0f240871cc98c80);
+        
+
+        marker_f304267164af4b2fa4df0af6010204a0.bindPopup(popup_d5cbc5de0a334c748d6ab336de89945c)
+        ;
+
+        
+    
+    
+            var marker_ae5cdc9dde694a089efa3336a7124128 = L.marker(
+                [-0.31186, 36.99287],
+                {}
+            ).addTo(feature_group_bd9b4b6fe94d42d3a897850d1bae9144);
+        
+    
+            var div_icon_6c9d331859994156b97e4d776c54fdf7 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e3.Baraka Chaka Tagua\u003c/div\u003e"});
+            marker_ae5cdc9dde694a089efa3336a7124128.setIcon(div_icon_6c9d331859994156b97e4d776c54fdf7);
+        
+    
+        var popup_3b952948265048fd86bcb317ab12de52 = L.popup({"maxWidth": 300});
+
+        
+            var html_5739bf3bf95b443ca1cf2f5a55a6f4a6 = $(`<div id="html_5739bf3bf95b443ca1cf2f5a55a6f4a6" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: Baraka Chaka Tagua <br><p> <strong>Scope</strong>: 1. Pump Installation at an existing pump house (Mt. Kenya Pump House) 2. 7km OD160mm diameter PN25-PN16 HDPE Clear Water Rising Main 3. 500M3 Ground level high tensile steel storage tank <br><p> <strong>Population to be Served</strong>: nil <br><p> <strong>Progress%</strong>: 1</div>`)[0];
+            popup_3b952948265048fd86bcb317ab12de52.setContent(html_5739bf3bf95b443ca1cf2f5a55a6f4a6);
+        
+
+        marker_ae5cdc9dde694a089efa3336a7124128.bindPopup(popup_3b952948265048fd86bcb317ab12de52)
+        ;
+
+        
+    
+    
+            var marker_130bf0b4dd7c4871a1ccf833352cf55f = L.marker(
+                [-0.370484, 36.45873],
+                {}
+            ).addTo(feature_group_bd9b4b6fe94d42d3a897850d1bae9144);
+        
+    
+            var div_icon_d43397ca8a384d938d07b9689751ce46 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-size:8px; font-weight:bold; color:brown; \"\u003e4.TWWDA Construction\u003c/div\u003e"});
+            marker_130bf0b4dd7c4871a1ccf833352cf55f.setIcon(div_icon_d43397ca8a384d938d07b9689751ce46);
+        
+    
+        var popup_25a3bf44cde245c680f3d8cbd4354703 = L.popup({"maxWidth": 300});
+
+        
+            var html_cf4272f3bd944524b1d95950fbac2ff6 = $(`<div id="html_cf4272f3bd944524b1d95950fbac2ff6" style="width: 100.0%; height: 100.0%;"><strong style="color:red;">Name</strong>: TWWDA Construction <br><p> <strong>Scope</strong>: Roofing of TWWDA Maji House - Western Wing <br><p> <strong>Population to be Served</strong>: nil <br><p> <strong>Progress%</strong>: 20</div>`)[0];
+            popup_25a3bf44cde245c680f3d8cbd4354703.setContent(html_cf4272f3bd944524b1d95950fbac2ff6);
+        
+
+        marker_130bf0b4dd7c4871a1ccf833352cf55f.bindPopup(popup_25a3bf44cde245c680f3d8cbd4354703)
+        ;
+
+        
+    
+    
+            var tile_layer_15b2b1b674c94aad8728e9aee9624639 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var tile_layer_d9a720830c244a34ae2a910edcbd22e0 = L.tileLayer(
+                "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
+                {"attribution": "Map tiles by \u003ca href=\"http://stamen.com\"\u003eStamen Design\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by/3.0\"\u003eCC BY 3.0\u003c/a\u003e. Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by-sa/3.0\"\u003eCC BY SA\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var tile_layer_64bd6a220d8145698c96bcf83b05ee0d = L.tileLayer(
+                "https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg",
+                {"attribution": "Map tiles by \u003ca href=\"http://stamen.com\"\u003eStamen Design\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by/3.0\"\u003eCC BY 3.0\u003c/a\u003e. Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://creativecommons.org/licenses/by-sa/3.0\"\u003eCC BY SA\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var tile_layer_142fb5c21f2a43ccba334625a2b145c3 = L.tileLayer(
+                "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"http://cartodb.com/attributions\"\u003eCartoDB\u003c/a\u003e, CartoDB \u003ca href =\"http://cartodb.com/attributions\"\u003eattributions\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+        
+    
+            var layer_control_5b49a50f7acc4f759aab56c3492b17a7 = {
+                base_layers : {
+                    "cartodbpositron" : tile_layer_50ba4c6dfd10433d94a1904cff8e3c47,
+                    "openstreetmap" : tile_layer_15b2b1b674c94aad8728e9aee9624639,
+                    "stamenterrain" : tile_layer_d9a720830c244a34ae2a910edcbd22e0,
+                    "stamenwatercolor" : tile_layer_64bd6a220d8145698c96bcf83b05ee0d,
+                    "cartodbdark_matter" : tile_layer_142fb5c21f2a43ccba334625a2b145c3,
+                },
+                overlays :  {
+                    "Plan \u0026 Design" : feature_group_631a0ca83fc74c0092bcc6ff6d4ddddd,
+                    "ADB_Water" : feature_group_836c0301e76846b08799564985d9873b,
+                    "ADB_Sewerage" : feature_group_088f6d0725924d77a1995fd046702041,
+                    "CC_Dams" : feature_group_ee522be29a0d445bb1646f0b1aee8787,
+                    "CC_Water" : feature_group_d183bc26b1784903bfb79a491e7e5071,
+                    "BH_Equip" : feature_group_34a8242ebf2a425e94b393e0f056c95a,
+                    "BH_Drill" : feature_group_f9dfe8a8420d46408c8b21da21ec9780,
+                    "UHC" : feature_group_8a06dbf0922f4df4877e38530c5f8e14,
+                    "Other Projects" : feature_group_bd9b4b6fe94d42d3a897850d1bae9144,
+                },
+            };
+            L.control.layers(
+                layer_control_5b49a50f7acc4f759aab56c3492b17a7.base_layers,
+                layer_control_5b49a50f7acc4f759aab56c3492b17a7.overlays,
+                {"autoZIndex": true, "collapsed": true, "position": "topright"}
+            ).addTo(map_e8c3036cc3084ba79ed5ff886ea079bf);
+            tile_layer_15b2b1b674c94aad8728e9aee9624639.remove();
+            tile_layer_d9a720830c244a34ae2a910edcbd22e0.remove();
+            tile_layer_64bd6a220d8145698c96bcf83b05ee0d.remove();
+            tile_layer_142fb5c21f2a43ccba334625a2b145c3.remove();
+        
+</script>
