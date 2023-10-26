@@ -24,7 +24,7 @@ st.write("""
 *click on a marker to view project details*
 """)
 
-HtmlFile = open("./maps/new_map2.html", 'r')
+HtmlFile = open("./maps/tana_projs1.html", 'r')
 Tana_map = HtmlFile.read()
 components.html(Tana_map, height=700)
 
