@@ -79,7 +79,7 @@ Borehole Drilling
 
 col3.markdown("""
 <span style='color:green;'>
-. MTP IV 
+. MTP_IV 
 </span> =
 <span style='color:green;'>
 Medium Term Projects 
