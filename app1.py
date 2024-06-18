@@ -24,7 +24,7 @@ st.write("""
 *click on a marker to view project details*
 """)
 
-HtmlFile = open("./maps/tana_projs2.html", 'r')
+HtmlFile = open("./maps/updated_map1.html", 'r')
 Tana_map = HtmlFile.read()
 components.html(Tana_map, height=700)
 
@@ -49,6 +49,12 @@ Crosscounty Water Supply
 </span>=
 <span style='color:brown;'>
 Borehole Equipping
+</span><br>
+<span style='color:blue;'>
+. Complete_BH 
+</span>=
+<span style='color:brown;'>
+Complete BoreHole Projects
 </span>
 
 """,
